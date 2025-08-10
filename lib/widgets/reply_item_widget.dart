@@ -1,0 +1,251 @@
+import 'package:flutter/material.dart';
+import '../models/comment_models.dart';
+import 'nested_reply_item_widget.dart';
+
+class ReplyItemWidget extends StatelessWidget {
+  final ReplyItem reply;
+  final String commentId;
+  final Function(String replyId, String userName) onReply;
+  final Function(String replyId, ReactionType reaction) onReact;
+  final Function(String replyId) onToggleExpansion;
+
+  const ReplyItemWidget({
+    super.key,
+    required this.reply,
+    required this.commentId,
+    required this.onReply,
+    required this.onReact,
+    required this.onToggleExpansion,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 52, bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Avatar
+              CircleAvatar(
+                radius: 16,
+                backgroundImage:
+                    reply.photo != null ? NetworkImage(reply.photo!) : null,
+                child:
+                    reply.photo == null
+                        ? Text(
+                          reply.name.isNotEmpty
+                              ? reply.name[0].toUpperCase()
+                              : 'U',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                        : null,
+              ),
+              const SizedBox(width: 12),
+
+              // Reply Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // User Name
+                    Text(
+                      reply.name,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+
+                    // Reply Text with mention
+                    if (reply.replyComment?.isNotEmpty == true)
+                      RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.black87,
+                            height: 1.4,
+                          ),
+                          children: _buildReplyTextSpans(reply.replyComment!),
+                        ),
+                      ),
+                    const SizedBox(height: 6),
+
+                    // Time and Actions
+                    Row(
+                      children: [
+                        Text(
+                          reply.replyCreatedOn ?? '',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+
+                        if (reply.replyCount > 0) ...[
+                          Text(
+                            '${reply.replyCount} Reply${reply.replyCount > 1 ? 's' : ''}',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                        ],
+
+                        GestureDetector(
+                          onTap: () => onReply(reply.guid, reply.name),
+                          child: const Text(
+                            'Reply',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Reaction Button
+              Column(
+                children: [
+                  if (reply.reactionCount > 0)
+                    Text(
+                      '${reply.reactionCount}',
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
+                    ),
+                  GestureDetector(
+                    onTap: () => onReact(reply.guid, const ReactionType.like()),
+                    child: Icon(
+                      reply.loginUserReaction != null
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      size: 18,
+                      color:
+                          reply.loginUserReaction != null
+                              ? Colors.red
+                              : Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Nested Replies
+          if (reply.nestedReplies.isNotEmpty) ...[
+            const SizedBox(height: 8),
+
+            // Show More Replies Button
+            if (reply.nestedReplies.length > 1 && !reply.isExpanded)
+              GestureDetector(
+                onTap: () => onToggleExpansion(reply.guid),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: Text(
+                    'More replies',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.blue[600],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+
+            // Nested Replies List
+            ...reply.nestedReplies.asMap().entries.map((entry) {
+              final index = entry.key;
+              final nestedReply = entry.value;
+
+              // Show first nested reply always, others only when expanded
+              if (index == 0 || reply.isExpanded) {
+                return NestedReplyItemWidget(
+                  nestedReply: nestedReply,
+                  onReact: (nestedReplyId, reaction) {
+                    // Handle nested reply reaction
+                  },
+                );
+              }
+              return const SizedBox.shrink();
+            }),
+
+            // Hide Replies Button
+            if (reply.isExpanded && reply.nestedReplies.length > 1)
+              GestureDetector(
+                onTap: () => onToggleExpansion(reply.guid),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40, top: 4),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Hide',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.keyboard_arrow_up,
+                        size: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  List<TextSpan> _buildReplyTextSpans(String text) {
+    final List<TextSpan> spans = [];
+    final RegExp mentionRegex = RegExp(r'@(\w+(?:\s+\w+)*)');
+
+    int lastMatchEnd = 0;
+
+    for (final match in mentionRegex.allMatches(text)) {
+      // Add text before mention
+      if (match.start > lastMatchEnd) {
+        spans.add(TextSpan(text: text.substring(lastMatchEnd, match.start)));
+      }
+
+      // Add mention with blue color
+      spans.add(
+        TextSpan(
+          text: match.group(0),
+          style: TextStyle(
+            color: Colors.blue[600],
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
+
+      lastMatchEnd = match.end;
+    }
+
+    // Add remaining text
+    if (lastMatchEnd < text.length) {
+      spans.add(TextSpan(text: text.substring(lastMatchEnd)));
+    }
+
+    return spans.isEmpty ? [TextSpan(text: text)] : spans;
+  }
+}
