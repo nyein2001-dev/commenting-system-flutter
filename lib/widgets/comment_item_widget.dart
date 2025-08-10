@@ -8,7 +8,7 @@ class CommentItemWidget extends ConsumerWidget {
   final CommentItem comment;
   final Function(String commentId, String userName) onReply;
   final Function(String commentId, ReactionType reaction) onReact;
-  final Function(String commentId) onToggleExpansion;
+  final Future<void> Function(String commentId) onToggleExpansion;
   final Function(String commentId) onLoadMoreReplies;
   final Map<String, GlobalKey> replyKeys;
   final Map<String, GlobalKey> nestedReplyKeys;
@@ -199,7 +199,7 @@ class CommentItemWidget extends ConsumerWidget {
             // Show More Replies Button
             if (comment.replyCount > 1 && !comment.isExpanded)
               GestureDetector(
-                onTap: () => onToggleExpansion(comment.guid),
+                onTap: () async => await onToggleExpansion(comment.guid),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 52),
                   child: Text(
@@ -214,41 +214,34 @@ class CommentItemWidget extends ConsumerWidget {
               ),
 
             // Replies List with optimized rendering
-            if (comment.replies.isNotEmpty)
-              ...comment.replies.asMap().entries.map((entry) {
-                final index = entry.key;
-                final reply = entry.value;
-
-                // Show first reply always, others only when expanded
-                if (index == 0 || comment.isExpanded) {
-                  return ReplyItemWidget(
-                    key: replyKeys[reply.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
-                    reply: reply,
-                    commentId: comment.guid,
-                    nestedReplyKeys: nestedReplyKeys,
-                    onReply: (replyId, userName) {
-                      ref
-                          .read(commentProvider.notifier)
-                          .setReplyTarget(replyId, userName, CommentType.reply);
-                    },
-                    onReact: (replyId, reaction) {
-                      ref
-                          .read(commentProvider.notifier)
-                          .reactToReply(comment.guid, replyId, reaction);
-                    },
-                    onToggleExpansion: (replyId) {
-                      ref
-                          .read(commentProvider.notifier)
-                          .toggleReplyExpansion(comment.guid, replyId);
-                    },
-                    onLoadMoreNestedReplies: (replyId) {
-                      ref
-                          .read(commentProvider.notifier)
-                          .loadMoreNestedReplies(comment.guid, replyId);
-                    },
-                  );
-                }
-                return const SizedBox.shrink();
+            if (comment.replies.isNotEmpty && comment.isExpanded)
+              ...comment.replies.map((reply) {
+                return ReplyItemWidget(
+                  key: replyKeys[reply.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
+                  reply: reply,
+                  commentId: comment.guid,
+                  nestedReplyKeys: nestedReplyKeys,
+                  onReply: (replyId, userName) {
+                    ref
+                        .read(commentProvider.notifier)
+                        .setReplyTarget(replyId, userName, CommentType.reply);
+                  },
+                  onReact: (replyId, reaction) {
+                    ref
+                        .read(commentProvider.notifier)
+                        .reactToReply(comment.guid, replyId, reaction);
+                  },
+                  onToggleExpansion: (replyId) async {
+                    await ref
+                        .read(commentProvider.notifier)
+                        .toggleReplyExpansion(comment.guid, replyId);
+                  },
+                  onLoadMoreNestedReplies: (replyId) {
+                    ref
+                        .read(commentProvider.notifier)
+                        .loadMoreNestedReplies(comment.guid, replyId);
+                  },
+                );
               }),
 
             // Load More Replies Button
@@ -277,7 +270,7 @@ class CommentItemWidget extends ConsumerWidget {
             // Hide Replies Button
             if (comment.isExpanded && comment.replies.length > 1)
               GestureDetector(
-                onTap: () => onToggleExpansion(comment.guid),
+                onTap: () async => await onToggleExpansion(comment.guid),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 52, top: 8),
                   child: Row(

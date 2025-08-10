@@ -133,7 +133,8 @@ class CommentService {
   List<CommentItem> _generateMockComments() {
     return List.generate(100, (index) {
       final hasReplies = index % 3 == 0;
-      final replyCount = hasReplies ? (index % 5) + 1 : 0;
+      // Generate more realistic reply counts - some comments have many replies
+      final replyCount = hasReplies ? (index % 10) + 5 : 0;
       
       return CommentItem(
         guid: 'comment_$index',
@@ -145,6 +146,7 @@ class CommentService {
         reactionCount: index % 10,
         replyCount: replyCount,
         loginUserReaction: index % 7 == 0 ? 'like' : null,
+        // Set hasMoreReplies to true if there are more than 1 reply available
         hasMoreReplies: hasReplies && replyCount > 1,
       );
     });
@@ -165,6 +167,7 @@ class CommentService {
         replyCreatedOn: _generateRandomTime(),
         reactionCount: index % 5,
         replyCount: nestedReplyCount,
+        // Set hasMoreNestedReplies to true if there are more than 1 nested reply available
         hasMoreNestedReplies: hasNestedReplies && nestedReplyCount > 1,
       );
     });

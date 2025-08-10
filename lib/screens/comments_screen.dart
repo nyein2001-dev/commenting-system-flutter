@@ -173,8 +173,8 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                                           .read(commentProvider.notifier)
                                           .reactToComment(commentId, reaction);
                                     },
-                                    onToggleExpansion: (commentId) {
-                                      ref
+                                    onToggleExpansion: (commentId) async {
+                                      await ref
                                           .read(commentProvider.notifier)
                                           .toggleCommentExpansion(commentId);
                                     },

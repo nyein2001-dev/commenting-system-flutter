@@ -510,46 +510,73 @@ class CommentNotifier extends StateNotifier<CommentState> {
     );
   }
 
-  void toggleCommentExpansion(String commentId) {
-    final updatedComments = state.comments.map((comment) {
-      if (comment.guid == commentId) {
-        final isExpanding = !comment.isExpanded;
-        
-        // Load replies when expanding for the first time
-        if (isExpanding && comment.replies.isEmpty && comment.replyCount > 0) {
-          loadReplies(commentId);
-        }
-        
-        return comment.copyWith(isExpanded: isExpanding);
-      }
-      return comment;
-    }).toList();
+  Future<void> toggleCommentExpansion(String commentId) async {
+    final commentIndex = state.comments.indexWhere((c) => c.guid == commentId);
+    if (commentIndex == -1) return;
 
-    state = state.copyWith(comments: updatedComments);
+    final comment = state.comments[commentIndex];
+    final isExpanding = !comment.isExpanded;
+    
+    // If expanding and no replies loaded yet, load initial replies first
+    if (isExpanding && comment.replies.isEmpty && comment.replyCount > 0) {
+      // Just set expanded state first, let loadReplies handle loading state
+      final updatedComments = List<CommentItem>.from(state.comments);
+      updatedComments[commentIndex] = comment.copyWith(isExpanded: true);
+      state = state.copyWith(comments: updatedComments);
+      
+      // Load initial replies (this method handles its own loading state)
+      await loadReplies(commentId);
+    } else {
+      // Just toggle expansion state
+      final updatedComments = state.comments.map((c) {
+        if (c.guid == commentId) {
+          return c.copyWith(isExpanded: isExpanding);
+        }
+        return c;
+      }).toList();
+      state = state.copyWith(comments: updatedComments);
+    }
   }
 
-  void toggleReplyExpansion(String commentId, String replyId) {
-    final updatedComments = state.comments.map((comment) {
-      if (comment.guid == commentId) {
-        final updatedReplies = comment.replies.map((reply) {
-          if (reply.guid == replyId) {
-            final isExpanding = !reply.isExpanded;
-            
-            // Load nested replies when expanding for the first time
-            if (isExpanding && reply.nestedReplies.isEmpty && reply.replyCount > 0) {
-              loadNestedReplies(commentId, replyId);
-            }
-            
-            return reply.copyWith(isExpanded: isExpanding);
-          }
-          return reply;
-        }).toList();
-        return comment.copyWith(replies: updatedReplies);
-      }
-      return comment;
-    }).toList();
+  Future<void> toggleReplyExpansion(String commentId, String replyId) async {
+    final commentIndex = state.comments.indexWhere((c) => c.guid == commentId);
+    if (commentIndex == -1) return;
 
-    state = state.copyWith(comments: updatedComments);
+    final comment = state.comments[commentIndex];
+    final replyIndex = comment.replies.indexWhere((r) => r.guid == replyId);
+    if (replyIndex == -1) return;
+
+    final reply = comment.replies[replyIndex];
+    final isExpanding = !reply.isExpanded;
+    
+    // If expanding and no nested replies loaded yet, load initial nested replies first
+    if (isExpanding && reply.nestedReplies.isEmpty && reply.replyCount > 0) {
+      // Just set expanded state first, let loadNestedReplies handle loading state
+      final updatedReplies = List<ReplyItem>.from(comment.replies);
+      updatedReplies[replyIndex] = reply.copyWith(isExpanded: true);
+      
+      final updatedComments = List<CommentItem>.from(state.comments);
+      updatedComments[commentIndex] = comment.copyWith(replies: updatedReplies);
+      state = state.copyWith(comments: updatedComments);
+      
+      // Load initial nested replies (this method handles its own loading state)
+      await loadNestedReplies(commentId, replyId);
+    } else {
+      // Just toggle expansion state
+      final updatedComments = state.comments.map((c) {
+        if (c.guid == commentId) {
+          final updatedReplies = c.replies.map((r) {
+            if (r.guid == replyId) {
+              return r.copyWith(isExpanded: isExpanding);
+            }
+            return r;
+          }).toList();
+          return c.copyWith(replies: updatedReplies);
+        }
+        return c;
+      }).toList();
+      state = state.copyWith(comments: updatedComments);
+    }
   }
 
   Future<void> reactToComment(String commentId, ReactionType reaction) async {

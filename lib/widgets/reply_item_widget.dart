@@ -9,7 +9,7 @@ class ReplyItemWidget extends ConsumerWidget {
   final String commentId;
   final Function(String replyId, String userName) onReply;
   final Function(String replyId, ReactionType reaction) onReact;
-  final Function(String replyId) onToggleExpansion;
+  final Future<void> Function(String replyId) onToggleExpansion;
   final Function(String replyId) onLoadMoreNestedReplies;
   final Map<String, GlobalKey> nestedReplyKeys;
 
@@ -206,22 +206,15 @@ class ReplyItemWidget extends ConsumerWidget {
               ),
 
             // Nested Replies List with optimized rendering
-            if (reply.nestedReplies.isNotEmpty)
-              ...reply.nestedReplies.asMap().entries.map((entry) {
-                final index = entry.key;
-                final nestedReply = entry.value;
-
-                // Show first nested reply always, others only when expanded
-                if (index == 0 || reply.isExpanded) {
-                  return NestedReplyItemWidget(
-                    key: nestedReplyKeys[nestedReply.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
-                    nestedReply: nestedReply,
-                    onReact: (nestedReplyId, reaction) {
-                      // Handle nested reply reaction
-                    },
-                  );
-                }
-                return const SizedBox.shrink();
+            if (reply.nestedReplies.isNotEmpty && reply.isExpanded)
+              ...reply.nestedReplies.map((nestedReply) {
+                return NestedReplyItemWidget(
+                  key: nestedReplyKeys[nestedReply.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
+                  nestedReply: nestedReply,
+                  onReact: (nestedReplyId, reaction) {
+                    // Handle nested reply reaction
+                  },
+                );
               }),
 
             // Load More Nested Replies Button
