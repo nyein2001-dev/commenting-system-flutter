@@ -4,7 +4,7 @@ part 'comment_models.freezed.dart';
 part 'comment_models.g.dart';
 
 @freezed
-class CommentItem with _$CommentItem {
+abstract class CommentItem with _$CommentItem {
   const factory CommentItem({
     required String guid,
     String? commentText,
@@ -31,7 +31,7 @@ class CommentItem with _$CommentItem {
 }
 
 @freezed
-class ReplyItem with _$ReplyItem {
+abstract class ReplyItem with _$ReplyItem {
   const factory ReplyItem({
     required String guid,
     required String commentGuid,
@@ -57,7 +57,7 @@ class ReplyItem with _$ReplyItem {
 }
 
 @freezed
-class NestedReplyItem with _$NestedReplyItem {
+abstract class NestedReplyItem with _$NestedReplyItem {
   const factory NestedReplyItem({
     required String guid,
     String? replyComment,
@@ -79,7 +79,7 @@ class NestedReplyItem with _$NestedReplyItem {
 }
 
 @freezed
-class CommentState with _$CommentState {
+abstract class CommentState with _$CommentState {
   const factory CommentState({
     @Default([]) List<CommentItem> comments,
     @Default(false) bool isLoading,
