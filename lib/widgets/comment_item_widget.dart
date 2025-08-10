@@ -28,146 +28,148 @@ class CommentItemWidget extends ConsumerWidget {
     
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      decoration: isTargetComment ? BoxDecoration(
-        color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue.shade200),
-      ) : null,
-      padding: isTargetComment ? const EdgeInsets.all(12) : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Main Comment
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Avatar
-              CircleAvatar(
-                radius: 20,
-                backgroundImage:
-                    comment.photo != null ? NetworkImage(comment.photo!) : null,
-                child:
-                    comment.photo == null
-                        ? Text(
-                          comment.name.isNotEmpty
-                              ? comment.name[0].toUpperCase()
-                              : 'U',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                        : null,
-              ),
-              const SizedBox(width: 12),
-
-              // Comment Content
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // User Name
-                    Text(
-                      comment.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-
-                    // Comment Text
-                    if (comment.commentText?.isNotEmpty == true)
-                      Text(
-                        comment.commentText!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black87,
-                          height: 1.4,
-                        ),
-                      ),
-                    const SizedBox(height: 8),
-
-                    // Time and Actions
-                    Row(
-                      children: [
-                        Text(
-                          comment.isSubmitting ? 'Commenting' : (comment.createdOn ?? ''),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: comment.isSubmitting ? Colors.blue : Colors.grey,
-                            fontWeight: comment.isSubmitting ? FontWeight.w500 : FontWeight.normal,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-
-                        if (comment.replyCount > 0) ...[
-                          Text(
-                            '${comment.replyCount} Reply${comment.replyCount > 1 ? 's' : ''}',
+          // Main Comment with highlighting
+          Container(
+            decoration: isTargetComment ? BoxDecoration(
+              color: Colors.blue.shade50,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.blue.shade200),
+            ) : null,
+            padding: isTargetComment ? const EdgeInsets.all(12) : null,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage:
+                      comment.photo != null ? NetworkImage(comment.photo!) : null,
+                  child:
+                      comment.photo == null
+                          ? Text(
+                            comment.name.isNotEmpty
+                                ? comment.name[0].toUpperCase()
+                                : 'U',
                             style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                          : null,
+                ),
+                const SizedBox(width: 12),
+
+                // Comment Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // User Name
+                      Text(
+                        comment.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+
+                      // Comment Text
+                      if (comment.commentText?.isNotEmpty == true)
+                        Text(
+                          comment.commentText!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black87,
+                            height: 1.4,
+                          ),
+                        ),
+                      const SizedBox(height: 8),
+
+                      // Time and Actions
+                      Row(
+                        children: [
+                          Text(
+                            comment.isSubmitting ? 'Commenting' : (comment.createdOn ?? ''),
+                            style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
+                              color: comment.isSubmitting ? Colors.blue : Colors.grey,
+                              fontWeight: comment.isSubmitting ? FontWeight.w500 : FontWeight.normal,
                             ),
                           ),
                           const SizedBox(width: 16),
-                        ],
 
-                        GestureDetector(
-                          onTap: () => onReply(comment.guid, comment.name),
-                          child: const Text(
-                            'Reply',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
+                          if (comment.replyCount > 0) ...[
+                            Text(
+                              '${comment.replyCount} Reply${comment.replyCount > 1 ? 's' : ''}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                          ],
+
+                          GestureDetector(
+                            onTap: () => onReply(comment.guid, comment.name),
+                            child: const Text(
+                              'Reply',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ),
 
-                        if (comment.loginUserReaction != null) ...[
-                          const SizedBox(width: 8),
-                          const Icon(
-                            Icons.favorite,
-                            size: 12,
-                            color: Colors.red,
-                          ),
+                          if (comment.loginUserReaction != null) ...[
+                            const SizedBox(width: 8),
+                            const Icon(
+                              Icons.favorite,
+                              size: 12,
+                              color: Colors.red,
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Reaction Button
+                Column(
+                  children: [
+                    if (comment.reactionCount > 0)
+                      Text(
+                        '${comment.reactionCount}',
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    GestureDetector(
+                      onTap:
+                          () => onReact(comment.guid, const ReactionType.like()),
+                      child: Icon(
+                        comment.loginUserReaction != null
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        size: 20,
+                        color:
+                            comment.loginUserReaction != null
+                                ? Colors.red
+                                : Colors.grey,
+                      ),
                     ),
                   ],
                 ),
-              ),
-
-              // Reaction Button
-              Column(
-                children: [
-                  if (comment.reactionCount > 0)
-                    Text(
-                      '${comment.reactionCount}',
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                  GestureDetector(
-                    onTap:
-                        () => onReact(comment.guid, const ReactionType.like()),
-                    child: Icon(
-                      comment.loginUserReaction != null
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      size: 20,
-                      color:
-                          comment.loginUserReaction != null
-                              ? Colors.red
-                              : Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
 
-          // Replies
+          // Replies (outside of highlighting)
           if (comment.replies.isNotEmpty || comment.replyCount > 0) ...[
             const SizedBox(height: 12),
 

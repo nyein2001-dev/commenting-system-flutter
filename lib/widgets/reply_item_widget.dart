@@ -30,137 +30,140 @@ class ReplyItemWidget extends ConsumerWidget {
     
     return Container(
       margin: const EdgeInsets.only(left: 52, bottom: 12),
-      decoration: isTargetReply ? BoxDecoration(
-        color: Colors.green.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.green.shade200),
-      ) : null,
-      padding: isTargetReply ? const EdgeInsets.all(8) : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Avatar
-              CircleAvatar(
-                radius: 16,
-                backgroundImage:
-                    reply.photo != null ? NetworkImage(reply.photo!) : null,
-                child:
-                    reply.photo == null
-                        ? Text(
-                          reply.name.isNotEmpty
-                              ? reply.name[0].toUpperCase()
-                              : 'U',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                        : null,
-              ),
-              const SizedBox(width: 12),
-
-              // Reply Content
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // User Name
-                    Text(
-                      reply.name,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-
-                    // Reply Text with mention
-                    if (reply.replyComment?.isNotEmpty == true)
-                      RichText(
-                        text: TextSpan(
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.black87,
-                            height: 1.4,
-                          ),
-                          children: _buildReplyTextSpans(reply.replyComment!),
-                        ),
-                      ),
-                    const SizedBox(height: 6),
-
-                    // Time and Actions
-                    Row(
-                      children: [
-                        Text(
-                          reply.isSubmitting ? 'Commenting' : (reply.replyCreatedOn ?? ''),
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: reply.isSubmitting ? Colors.blue : Colors.grey,
-                            fontWeight: reply.isSubmitting ? FontWeight.w500 : FontWeight.normal,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-
-                        if (reply.replyCount > 0) ...[
-                          Text(
-                            '${reply.replyCount} Reply${reply.replyCount > 1 ? 's' : ''}',
+          // Main Reply with highlighting
+          Container(
+            decoration: isTargetReply ? BoxDecoration(
+              color: Colors.green.shade50,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.green.shade200),
+            ) : null,
+            padding: isTargetReply ? const EdgeInsets.all(8) : null,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar
+                CircleAvatar(
+                  radius: 16,
+                  backgroundImage:
+                      reply.photo != null ? NetworkImage(reply.photo!) : null,
+                  child:
+                      reply.photo == null
+                          ? Text(
+                            reply.name.isNotEmpty
+                                ? reply.name[0].toUpperCase()
+                                : 'U',
                             style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                          : null,
+                ),
+                const SizedBox(width: 12),
+
+                // Reply Content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // User Name
+                      Text(
+                        reply.name,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+
+                      // Reply Text with mention
+                      if (reply.replyComment?.isNotEmpty == true)
+                        RichText(
+                          text: TextSpan(
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.black87,
+                              height: 1.4,
+                            ),
+                            children: _buildReplyTextSpans(reply.replyComment!),
+                          ),
+                        ),
+                      const SizedBox(height: 6),
+
+                      // Time and Actions
+                      Row(
+                        children: [
+                          Text(
+                            reply.isSubmitting ? 'Commenting' : (reply.replyCreatedOn ?? ''),
+                            style: TextStyle(
                               fontSize: 11,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
+                              color: reply.isSubmitting ? Colors.blue : Colors.grey,
+                              fontWeight: reply.isSubmitting ? FontWeight.w500 : FontWeight.normal,
                             ),
                           ),
                           const SizedBox(width: 12),
-                        ],
 
-                        GestureDetector(
-                          onTap: () => onReply(reply.guid, reply.name),
-                          child: const Text(
-                            'Reply',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
+                          if (reply.replyCount > 0) ...[
+                            Text(
+                              '${reply.replyCount} Reply${reply.replyCount > 1 ? 's' : ''}',
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                          ],
+
+                          GestureDetector(
+                            onTap: () => onReply(reply.guid, reply.name),
+                            child: const Text(
+                              'Reply',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Reaction Button
+                Column(
+                  children: [
+                    if (reply.reactionCount > 0)
+                      Text(
+                        '${reply.reactionCount}',
+                        style: const TextStyle(fontSize: 11, color: Colors.grey),
+                      ),
+                    GestureDetector(
+                      onTap: () => onReact(reply.guid, const ReactionType.like()),
+                      child: Icon(
+                        reply.loginUserReaction != null
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        size: 18,
+                        color:
+                            reply.loginUserReaction != null
+                                ? Colors.red
+                                : Colors.grey,
+                      ),
                     ),
                   ],
                 ),
-              ),
-
-              // Reaction Button
-              Column(
-                children: [
-                  if (reply.reactionCount > 0)
-                    Text(
-                      '${reply.reactionCount}',
-                      style: const TextStyle(fontSize: 11, color: Colors.grey),
-                    ),
-                  GestureDetector(
-                    onTap: () => onReact(reply.guid, const ReactionType.like()),
-                    child: Icon(
-                      reply.loginUserReaction != null
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      size: 18,
-                      color:
-                          reply.loginUserReaction != null
-                              ? Colors.red
-                              : Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
 
-          // Nested Replies
+          // Nested Replies (outside of highlighting)
           if (reply.nestedReplies.isNotEmpty || reply.replyCount > 0) ...[
             const SizedBox(height: 8),
 
