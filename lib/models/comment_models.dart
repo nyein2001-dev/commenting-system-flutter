@@ -27,6 +27,7 @@ abstract class CommentItem with _$CommentItem {
     @Default(false) bool isLoadingReplies,
     @Default(false) bool hasMoreReplies,
     String? lastReplyCursor,
+    @Default(false) bool isSubmitting,
   }) = _CommentItem;
 
   factory CommentItem.fromJson(Map<String, dynamic> json) =>
@@ -56,6 +57,7 @@ abstract class ReplyItem with _$ReplyItem {
     @Default(false) bool isLoadingNestedReplies,
     @Default(false) bool hasMoreNestedReplies,
     String? lastNestedReplyCursor,
+    @Default(false) bool isSubmitting,
   }) = _ReplyItem;
 
   factory ReplyItem.fromJson(Map<String, dynamic> json) =>

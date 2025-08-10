@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/comment_models.dart';
-import '../providers/comment_provider.dart';
 
 class CommentInputWidget extends ConsumerStatefulWidget {
   final String postId;
@@ -38,20 +37,14 @@ class _CommentInputWidgetState extends ConsumerState<CommentInputWidget> {
 
   void _submitComment() {
     final text = _controller.text.trim();
-    final inputState = ref.read(commentInputProvider);
-    if (text.isEmpty || inputState.isSubmitting) return;
+    if (text.isEmpty) return;
 
-    ref.read(commentInputProvider.notifier).setSubmitting(true);
     widget.onSubmit(text);
     _controller.clear();
-    ref.read(commentInputProvider.notifier).clearText();
-    ref.read(commentInputProvider.notifier).setSubmitting(false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final inputState = ref.watch(commentInputProvider);
-    
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -175,25 +168,16 @@ class _CommentInputWidgetState extends ConsumerState<CommentInputWidget> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _controller.text.trim().isNotEmpty && !inputState.isSubmitting
+                      color: _controller.text.trim().isNotEmpty
                           ? Colors.blue[600]
                           : Colors.grey[400],
                       shape: BoxShape.circle,
                     ),
-                    child: inputState.isSubmitting
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
-                        : const Icon(
-                            Icons.send,
-                            color: Colors.white,
-                            size: 20,
-                          ),
+                    child: const Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                   ),
                 ),
               ],

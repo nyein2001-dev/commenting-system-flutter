@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/comment_models.dart';
+import '../providers/comment_provider.dart';
 import 'nested_reply_item_widget.dart';
 
-class ReplyItemWidget extends StatelessWidget {
+class ReplyItemWidget extends ConsumerWidget {
   final ReplyItem reply;
   final String commentId;
   final Function(String replyId, String userName) onReply;
@@ -21,9 +23,19 @@ class ReplyItemWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final commentState = ref.watch(commentProvider);
+    final isTargetReply = commentState.replyingTo == reply.guid && 
+                         commentState.replyType == CommentType.reply;
+    
     return Container(
       margin: const EdgeInsets.only(left: 52, bottom: 12),
+      decoration: isTargetReply ? BoxDecoration(
+        color: Colors.green.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.green.shade200),
+      ) : null,
+      padding: isTargetReply ? const EdgeInsets.all(8) : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -84,10 +96,11 @@ class ReplyItemWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          reply.replyCreatedOn ?? '',
-                          style: const TextStyle(
+                          reply.isSubmitting ? 'Commenting' : (reply.replyCreatedOn ?? ''),
+                          style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey,
+                            color: reply.isSubmitting ? Colors.blue : Colors.grey,
+                            fontWeight: reply.isSubmitting ? FontWeight.w500 : FontWeight.normal,
                           ),
                         ),
                         const SizedBox(width: 12),

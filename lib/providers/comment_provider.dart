@@ -261,35 +261,101 @@ class CommentNotifier extends StateNotifier<CommentState> {
 
   Future<void> addComment(String postId, String commentText) async {
     try {
+      // Create a temporary comment with "Commenting" state
+      final tempComment = CommentItem(
+        guid: 'temp_${DateTime.now().millisecondsSinceEpoch}',
+        commentText: commentText,
+        name: 'Current User',
+        personGuid: 'current_user',
+        photo: 'https://i.pravatar.cc/150?img=10',
+        createdOn: 'Commenting',
+        isSubmitting: true,
+      );
+      
+      // Add temporary comment to the top
+      state = state.copyWith(comments: [tempComment, ...state.comments]);
+      
+      // Simulate delay and get real comment
+      await Future.delayed(const Duration(seconds: 2));
       final newComment = await _commentService.addComment(postId, commentText);
-      state = state.copyWith(comments: [newComment, ...state.comments]);
+      
+      // Replace temporary comment with real one
+      final updatedComments = state.comments.map((comment) {
+        if (comment.guid == tempComment.guid) {
+          return newComment;
+        }
+        return comment;
+      }).toList();
+      
+      state = state.copyWith(comments: updatedComments);
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      // Remove temporary comment on error
+      final updatedComments = state.comments.where((comment) => !comment.isSubmitting).toList();
+      state = state.copyWith(comments: updatedComments, error: e.toString());
     }
   }
 
   Future<void> addReply(String commentId, String replyText) async {
     try {
-      final newReply = await _commentService.addReply(commentId, replyText);
+      // Create a temporary reply with "Commenting" state
+      final tempReply = ReplyItem(
+        guid: 'temp_reply_${DateTime.now().millisecondsSinceEpoch}',
+        commentGuid: commentId,
+        replyComment: replyText,
+        name: 'Current User',
+        personGuid: 'current_user',
+        photo: 'https://i.pravatar.cc/150?img=10',
+        replyCreatedOn: 'Commenting',
+        isSubmitting: true,
+      );
 
+      // Add temporary reply to the comment
       final updatedComments = state.comments.map((comment) {
         if (comment.guid == commentId) {
           return comment.copyWith(
-            replies: [newReply, ...comment.replies],
+            replies: [tempReply, ...comment.replies],
             replyCount: comment.replyCount + 1,
           );
         }
         return comment;
       }).toList();
 
+      state = state.copyWith(comments: updatedComments);
+
+      // Simulate delay and get real reply
+      await Future.delayed(const Duration(seconds: 2));
+      final newReply = await _commentService.addReply(commentId, replyText);
+
+      // Replace temporary reply with real one
+      final finalUpdatedComments = state.comments.map((comment) {
+        if (comment.guid == commentId) {
+          final updatedReplies = comment.replies.map((reply) {
+            if (reply.guid == tempReply.guid) {
+              return newReply;
+            }
+            return reply;
+          }).toList();
+          return comment.copyWith(replies: updatedReplies);
+        }
+        return comment;
+      }).toList();
+
       state = state.copyWith(
-        comments: updatedComments,
+        comments: finalUpdatedComments,
         replyingTo: null,
         replyingToName: null,
         replyType: null,
       );
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      // Remove temporary reply on error
+      final updatedComments = state.comments.map((comment) {
+        if (comment.guid == commentId) {
+          final updatedReplies = comment.replies.where((reply) => !reply.isSubmitting).toList();
+          return comment.copyWith(replies: updatedReplies);
+        }
+        return comment;
+      }).toList();
+      state = state.copyWith(comments: updatedComments, error: e.toString());
     }
   }
 

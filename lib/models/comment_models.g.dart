@@ -32,6 +32,7 @@ _CommentItem _$CommentItemFromJson(Map<String, dynamic> json) => _CommentItem(
   isLoadingReplies: json['isLoadingReplies'] as bool? ?? false,
   hasMoreReplies: json['hasMoreReplies'] as bool? ?? false,
   lastReplyCursor: json['lastReplyCursor'] as String?,
+  isSubmitting: json['isSubmitting'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$CommentItemToJson(_CommentItem instance) =>
@@ -57,6 +58,7 @@ Map<String, dynamic> _$CommentItemToJson(_CommentItem instance) =>
       'isLoadingReplies': instance.isLoadingReplies,
       'hasMoreReplies': instance.hasMoreReplies,
       'lastReplyCursor': instance.lastReplyCursor,
+      'isSubmitting': instance.isSubmitting,
     };
 
 _ReplyItem _$ReplyItemFromJson(Map<String, dynamic> json) => _ReplyItem(
@@ -84,6 +86,7 @@ _ReplyItem _$ReplyItemFromJson(Map<String, dynamic> json) => _ReplyItem(
   isLoadingNestedReplies: json['isLoadingNestedReplies'] as bool? ?? false,
   hasMoreNestedReplies: json['hasMoreNestedReplies'] as bool? ?? false,
   lastNestedReplyCursor: json['lastNestedReplyCursor'] as String?,
+  isSubmitting: json['isSubmitting'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$ReplyItemToJson(_ReplyItem instance) =>
@@ -108,6 +111,7 @@ Map<String, dynamic> _$ReplyItemToJson(_ReplyItem instance) =>
       'isLoadingNestedReplies': instance.isLoadingNestedReplies,
       'hasMoreNestedReplies': instance.hasMoreNestedReplies,
       'lastNestedReplyCursor': instance.lastNestedReplyCursor,
+      'isSubmitting': instance.isSubmitting,
     };
 
 _NestedReplyItem _$NestedReplyItemFromJson(Map<String, dynamic> json) =>

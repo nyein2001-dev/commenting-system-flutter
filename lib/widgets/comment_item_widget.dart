@@ -22,8 +22,18 @@ class CommentItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final commentState = ref.watch(commentProvider);
+    final isTargetComment = commentState.replyingTo == comment.guid && 
+                           commentState.replyType == CommentType.root;
+    
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
+      decoration: isTargetComment ? BoxDecoration(
+        color: Colors.blue.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.blue.shade200),
+      ) : null,
+      padding: isTargetComment ? const EdgeInsets.all(12) : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -83,10 +93,11 @@ class CommentItemWidget extends ConsumerWidget {
                     Row(
                       children: [
                         Text(
-                          comment.createdOn ?? '',
-                          style: const TextStyle(
+                          comment.isSubmitting ? 'Commenting' : (comment.createdOn ?? ''),
+                          style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey,
+                            color: comment.isSubmitting ? Colors.blue : Colors.grey,
+                            fontWeight: comment.isSubmitting ? FontWeight.w500 : FontWeight.normal,
                           ),
                         ),
                         const SizedBox(width: 16),
