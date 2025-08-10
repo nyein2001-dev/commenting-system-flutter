@@ -8,6 +8,7 @@ class ReplyItemWidget extends StatelessWidget {
   final Function(String replyId, String userName) onReply;
   final Function(String replyId, ReactionType reaction) onReact;
   final Function(String replyId) onToggleExpansion;
+  final Function(String replyId) onLoadMoreNestedReplies;
 
   const ReplyItemWidget({
     super.key,
@@ -16,6 +17,7 @@ class ReplyItemWidget extends StatelessWidget {
     required this.onReply,
     required this.onReact,
     required this.onToggleExpansion,
+    required this.onLoadMoreNestedReplies,
   });
 
   @override
@@ -146,11 +148,11 @@ class ReplyItemWidget extends StatelessWidget {
           ),
 
           // Nested Replies
-          if (reply.nestedReplies.isNotEmpty) ...[
+          if (reply.nestedReplies.isNotEmpty || reply.replyCount > 0) ...[
             const SizedBox(height: 8),
 
             // Show More Replies Button
-            if (reply.nestedReplies.length > 1 && !reply.isExpanded)
+            if (reply.replyCount > 1 && !reply.isExpanded)
               GestureDetector(
                 onTap: () => onToggleExpansion(reply.guid),
                 child: Padding(
@@ -166,22 +168,47 @@ class ReplyItemWidget extends StatelessWidget {
                 ),
               ),
 
-            // Nested Replies List
-            ...reply.nestedReplies.asMap().entries.map((entry) {
-              final index = entry.key;
-              final nestedReply = entry.value;
+            // Nested Replies List with optimized rendering
+            if (reply.nestedReplies.isNotEmpty)
+              ...reply.nestedReplies.asMap().entries.map((entry) {
+                final index = entry.key;
+                final nestedReply = entry.value;
 
-              // Show first nested reply always, others only when expanded
-              if (index == 0 || reply.isExpanded) {
-                return NestedReplyItemWidget(
-                  nestedReply: nestedReply,
-                  onReact: (nestedReplyId, reaction) {
-                    // Handle nested reply reaction
-                  },
-                );
-              }
-              return const SizedBox.shrink();
-            }),
+                // Show first nested reply always, others only when expanded
+                if (index == 0 || reply.isExpanded) {
+                  return NestedReplyItemWidget(
+                    key: ValueKey(nestedReply.guid), // Important for performance
+                    nestedReply: nestedReply,
+                    onReact: (nestedReplyId, reaction) {
+                      // Handle nested reply reaction
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
+
+            // Load More Nested Replies Button
+            if (reply.hasMoreNestedReplies && reply.isExpanded)
+              GestureDetector(
+                onTap: () => onLoadMoreNestedReplies(reply.guid),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40, top: 4),
+                  child: reply.isLoadingNestedReplies
+                      ? const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(
+                          'Load more replies',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.blue[600],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                ),
+              ),
 
             // Hide Replies Button
             if (reply.isExpanded && reply.nestedReplies.length > 1)

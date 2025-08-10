@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/comment_models.dart';
+import '../providers/comment_provider.dart';
 
-class CommentInputWidget extends StatefulWidget {
+class CommentInputWidget extends ConsumerStatefulWidget {
   final String postId;
   final String? replyingTo;
   final String? replyingToName;
@@ -20,165 +22,141 @@ class CommentInputWidget extends StatefulWidget {
   });
 
   @override
-  State<CommentInputWidget> createState() => _CommentInputWidgetState();
+  ConsumerState<CommentInputWidget> createState() => _CommentInputWidgetState();
 }
 
-class _CommentInputWidgetState extends State<CommentInputWidget> {
+class _CommentInputWidgetState extends ConsumerState<CommentInputWidget> {
   final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
     _controller.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
   void _submitComment() {
     final text = _controller.text.trim();
-    if (text.isNotEmpty) {
-      widget.onSubmit(text);
-      _controller.clear();
-    }
+    final inputState = ref.read(commentInputProvider);
+    if (text.isEmpty || inputState.isSubmitting) return;
+
+    ref.read(commentInputProvider.notifier).setSubmitting(true);
+    widget.onSubmit(text);
+    _controller.clear();
+    ref.read(commentInputProvider.notifier).clearText();
+    ref.read(commentInputProvider.notifier).setSubmitting(false);
   }
 
   @override
   Widget build(BuildContext context) {
+    final inputState = ref.watch(commentInputProvider);
+    
     return Container(
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey[200]!, width: 1)),
+        border: Border(
+          top: BorderSide(color: Colors.grey.shade200),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Reply indicator
-          if (widget.replyingTo != null && widget.replyingToName != null)
+          if (widget.replyingTo != null) ...[
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              color: Colors.grey[50],
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade50,
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Row(
                 children: [
-                  const Icon(Icons.reply, size: 16, color: Colors.grey),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Reply to',
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                  ),
-                  const SizedBox(width: 4),
-                  CircleAvatar(
-                    radius: 10,
-                    backgroundImage: NetworkImage(
-                      'https://i.pravatar.cc/150?img=1',
-                    ),
-                  ),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      widget.replyingToName!,
-                      style: const TextStyle(
+                      'Replying to ${widget.replyingToName ?? 'user'}',
+                      style: TextStyle(
                         fontSize: 12,
+                        color: Colors.blue.shade700,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black,
                       ),
                     ),
                   ),
                   GestureDetector(
                     onTap: widget.onClearReply,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        size: 12,
-                        color: Colors.white,
-                      ),
+                    child: Icon(
+                      Icons.close,
+                      size: 16,
+                      color: Colors.blue.shade700,
                     ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 8),
+          ],
 
           // Input field
-          Padding(
-            padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 12,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 12,
-            ),
-            child: Row(
-              children: [
-                // Expand button (optional)
-                GestureDetector(
-                  onTap: () {
-                    // Handle expand/collapse
-                  },
-                  child: const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 8),
-
-                // Text input
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey[300]!, width: 1),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    hintText: widget.replyingTo != null
+                        ? 'Write a reply...'
+                        : 'Write a comment...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
                     ),
-                    child: TextField(
-                      controller: _controller,
-                      focusNode: _focusNode,
-                      decoration: InputDecoration(
-                        hintText:
-                            widget.replyingTo != null
-                                ? 'Reply...'
-                                : 'Message...',
-                        hintStyle: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 14,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide(color: Colors.blue.shade400),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  maxLines: null,
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: (_) => _submitComment(),
+                ),
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: _submitComment,
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: _controller.text.trim().isNotEmpty && !inputState.isSubmitting
+                        ? Colors.blue
+                        : Colors.grey.shade300,
+                    shape: BoxShape.circle,
+                  ),
+                  child: inputState.isSubmitting
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : Icon(
+                          Icons.send,
+                          size: 20,
+                          color: _controller.text.trim().isNotEmpty
+                              ? Colors.white
+                              : Colors.grey.shade600,
                         ),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                      ),
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
-                      maxLines: null,
-                      textInputAction: TextInputAction.send,
-                      onSubmitted: (_) => _submitComment(),
-                    ),
-                  ),
                 ),
-                const SizedBox(width: 8),
-
-                // Send button
-                GestureDetector(
-                  onTap: _submitComment,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[600],
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

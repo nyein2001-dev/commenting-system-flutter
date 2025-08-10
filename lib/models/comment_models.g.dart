@@ -29,6 +29,9 @@ _CommentItem _$CommentItemFromJson(Map<String, dynamic> json) => _CommentItem(
           .toList() ??
       const [],
   isExpanded: json['isExpanded'] as bool? ?? false,
+  isLoadingReplies: json['isLoadingReplies'] as bool? ?? false,
+  hasMoreReplies: json['hasMoreReplies'] as bool? ?? false,
+  lastReplyCursor: json['lastReplyCursor'] as String?,
 );
 
 Map<String, dynamic> _$CommentItemToJson(_CommentItem instance) =>
@@ -51,6 +54,9 @@ Map<String, dynamic> _$CommentItemToJson(_CommentItem instance) =>
       'loginUserReaction': instance.loginUserReaction,
       'replies': instance.replies,
       'isExpanded': instance.isExpanded,
+      'isLoadingReplies': instance.isLoadingReplies,
+      'hasMoreReplies': instance.hasMoreReplies,
+      'lastReplyCursor': instance.lastReplyCursor,
     };
 
 _ReplyItem _$ReplyItemFromJson(Map<String, dynamic> json) => _ReplyItem(
@@ -75,6 +81,9 @@ _ReplyItem _$ReplyItemFromJson(Map<String, dynamic> json) => _ReplyItem(
           .toList() ??
       const [],
   isExpanded: json['isExpanded'] as bool? ?? false,
+  isLoadingNestedReplies: json['isLoadingNestedReplies'] as bool? ?? false,
+  hasMoreNestedReplies: json['hasMoreNestedReplies'] as bool? ?? false,
+  lastNestedReplyCursor: json['lastNestedReplyCursor'] as String?,
 );
 
 Map<String, dynamic> _$ReplyItemToJson(_ReplyItem instance) =>
@@ -96,6 +105,9 @@ Map<String, dynamic> _$ReplyItemToJson(_ReplyItem instance) =>
       'loginUserReaction': instance.loginUserReaction,
       'nestedReplies': instance.nestedReplies,
       'isExpanded': instance.isExpanded,
+      'isLoadingNestedReplies': instance.isLoadingNestedReplies,
+      'hasMoreNestedReplies': instance.hasMoreNestedReplies,
+      'lastNestedReplyCursor': instance.lastNestedReplyCursor,
     };
 
 _NestedReplyItem _$NestedReplyItemFromJson(Map<String, dynamic> json) =>
@@ -140,20 +152,28 @@ _CommentState _$CommentStateFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       isLoading: json['isLoading'] as bool? ?? false,
+      isLoadingMore: json['isLoadingMore'] as bool? ?? false,
       error: json['error'] as String?,
       replyingTo: json['replyingTo'] as String?,
       replyingToName: json['replyingToName'] as String?,
       replyType: $enumDecodeNullable(_$CommentTypeEnumMap, json['replyType']),
+      hasMoreComments: json['hasMoreComments'] as bool? ?? false,
+      lastCommentCursor: json['lastCommentCursor'] as String?,
+      pageSize: (json['pageSize'] as num?)?.toInt() ?? 20,
     );
 
 Map<String, dynamic> _$CommentStateToJson(_CommentState instance) =>
     <String, dynamic>{
       'comments': instance.comments,
       'isLoading': instance.isLoading,
+      'isLoadingMore': instance.isLoadingMore,
       'error': instance.error,
       'replyingTo': instance.replyingTo,
       'replyingToName': instance.replyingToName,
       'replyType': _$CommentTypeEnumMap[instance.replyType],
+      'hasMoreComments': instance.hasMoreComments,
+      'lastCommentCursor': instance.lastCommentCursor,
+      'pageSize': instance.pageSize,
     };
 
 const _$CommentTypeEnumMap = {

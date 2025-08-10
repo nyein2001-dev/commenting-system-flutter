@@ -2,88 +2,73 @@ import '../models/comment_models.dart';
 
 class CommentService {
   // Mock data - replace with actual API calls
-  Future<List<CommentItem>> getComments(String postId) async {
+  Future<PaginatedResponse<CommentItem>> getComments(
+    String postId, {
+    String? cursor,
+    int pageSize = 20,
+  }) async {
     await Future.delayed(const Duration(milliseconds: 500));
 
-    return [
-      CommentItem(
-        guid: '1',
-        commentText: 'Beautiful😍❤️',
-        name: 'Oleg Ivanov',
-        personGuid: 'user1',
-        photo: 'https://i.pravatar.cc/150?img=1',
-        createdOn: 'Today at 10:00 PM',
-        reactionCount: 1,
-        replyCount: 1,
-        loginUserReaction: 'love',
-        replies: [
-          ReplyItem(
-            guid: 'reply1',
-            commentGuid: '1',
-            replyComment: 'Thank you:3',
-            name: 'Annette Black',
-            personGuid: 'user2',
-            photo: 'https://i.pravatar.cc/150?img=2',
-            replyCreatedOn: 'Today at 10:00 PM',
-            reactionCount: 0,
-            replyCount: 0,
-          ),
-        ],
-      ),
-      CommentItem(
-        guid: '2',
-        commentText: 'Love it ❤️',
-        name: 'Emmilee',
-        personGuid: 'user3',
-        photo: 'https://i.pravatar.cc/150?img=3',
-        createdOn: 'Today at 10:00 PM',
-        reactionCount: 0,
-        replyCount: 0,
-      ),
-      CommentItem(
-        guid: '3',
-        commentText: 'hi',
-        name: 'U Shine',
-        personGuid: 'user4',
-        photo: 'https://i.pravatar.cc/150?img=4',
-        createdOn: '12 Jun 2025',
-        reactionCount: 0,
-        replyCount: 1,
-        replies: [
-          ReplyItem(
-            guid: 'reply2',
-            commentGuid: '3',
-            replyComment: 'U Shine 😊',
-            name: 'Monkey D Dev',
-            personGuid: 'user5',
-            photo: 'https://i.pravatar.cc/150?img=5',
-            replyCreatedOn: '2 hour ago',
-            reactionCount: 0,
-            replyCount: 2,
-            nestedReplies: [
-              NestedReplyItem(
-                guid: 'nested1',
-                replyComment: 'Monkey D Dev good',
-                name: 'Monkey D Dev',
-                personGuid: 'user5',
-                photo: 'https://i.pravatar.cc/150?img=5',
-                replyCreatedOn: '1 hour ago',
-                reactionCount: 0,
-              ),
-              NestedReplyItem(
-                guid: 'nested2',
-                replyComment: 'Monkey D Dev good 2',
-                name: 'Monkey D Dev',
-                personGuid: 'user5',
-                photo: 'https://i.pravatar.cc/150?img=5',
-                replyCreatedOn: '1 hour ago',
-                reactionCount: 0,
-              ),
-            ],
-          ),
-        ],
-      ),
-    ];
+    // Simulate pagination
+    final allComments = _generateMockComments();
+    final startIndex = cursor != null ? int.tryParse(cursor) ?? 0 : 0;
+    final endIndex = startIndex + pageSize;
+    final comments = allComments.skip(startIndex).take(pageSize).toList();
+    final hasMore = endIndex < allComments.length;
+    final nextCursor = hasMore ? endIndex.toString() : null;
+
+    return PaginatedResponse(
+      items: comments,
+      hasMore: hasMore,
+      nextCursor: nextCursor,
+      totalCount: allComments.length,
+    );
+  }
+
+  Future<PaginatedResponse<ReplyItem>> getReplies(
+    String commentId, {
+    String? cursor,
+    int pageSize = 10,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+
+    // Simulate pagination for replies
+    final allReplies = _generateMockReplies(commentId);
+    final startIndex = cursor != null ? int.tryParse(cursor) ?? 0 : 0;
+    final endIndex = startIndex + pageSize;
+    final replies = allReplies.skip(startIndex).take(pageSize).toList();
+    final hasMore = endIndex < allReplies.length;
+    final nextCursor = hasMore ? endIndex.toString() : null;
+
+    return PaginatedResponse(
+      items: replies,
+      hasMore: hasMore,
+      nextCursor: nextCursor,
+      totalCount: allReplies.length,
+    );
+  }
+
+  Future<PaginatedResponse<NestedReplyItem>> getNestedReplies(
+    String replyId, {
+    String? cursor,
+    int pageSize = 5,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    // Simulate pagination for nested replies
+    final allNestedReplies = _generateMockNestedReplies(replyId);
+    final startIndex = cursor != null ? int.tryParse(cursor) ?? 0 : 0;
+    final endIndex = startIndex + pageSize;
+    final nestedReplies = allNestedReplies.skip(startIndex).take(pageSize).toList();
+    final hasMore = endIndex < allNestedReplies.length;
+    final nextCursor = hasMore ? endIndex.toString() : null;
+
+    return PaginatedResponse(
+      items: nestedReplies,
+      hasMore: hasMore,
+      nextCursor: nextCursor,
+      totalCount: allNestedReplies.length,
+    );
   }
 
   Future<CommentItem> addComment(String postId, String commentText) async {
@@ -142,5 +127,88 @@ class CommentService {
   Future<void> reactToReply(String replyId, ReactionType reaction) async {
     await Future.delayed(const Duration(milliseconds: 200));
     // Implement API call to react to reply
+  }
+
+  // Helper methods to generate mock data
+  List<CommentItem> _generateMockComments() {
+    return List.generate(100, (index) {
+      final hasReplies = index % 3 == 0;
+      final replyCount = hasReplies ? (index % 5) + 1 : 0;
+      
+      return CommentItem(
+        guid: 'comment_$index',
+        commentText: 'Comment number $index - ${_generateRandomText()}',
+        name: 'User $index',
+        personGuid: 'user_$index',
+        photo: 'https://i.pravatar.cc/150?img=${index % 20}',
+        createdOn: _generateRandomTime(),
+        reactionCount: index % 10,
+        replyCount: replyCount,
+        loginUserReaction: index % 7 == 0 ? 'like' : null,
+        hasMoreReplies: hasReplies && replyCount > 1,
+      );
+    });
+  }
+
+  List<ReplyItem> _generateMockReplies(String commentId) {
+    return List.generate(50, (index) {
+      final hasNestedReplies = index % 4 == 0;
+      final nestedReplyCount = hasNestedReplies ? (index % 3) + 1 : 0;
+      
+      return ReplyItem(
+        guid: 'reply_${commentId}_$index',
+        commentGuid: commentId,
+        replyComment: 'Reply $index to $commentId - ${_generateRandomText()}',
+        name: 'ReplyUser $index',
+        personGuid: 'reply_user_$index',
+        photo: 'https://i.pravatar.cc/150?img=${(index + 10) % 20}',
+        replyCreatedOn: _generateRandomTime(),
+        reactionCount: index % 5,
+        replyCount: nestedReplyCount,
+        hasMoreNestedReplies: hasNestedReplies && nestedReplyCount > 1,
+      );
+    });
+  }
+
+  List<NestedReplyItem> _generateMockNestedReplies(String replyId) {
+    return List.generate(20, (index) {
+      return NestedReplyItem(
+        guid: 'nested_${replyId}_$index',
+        replyComment: 'Nested reply $index to $replyId - ${_generateRandomText()}',
+        name: 'NestedUser $index',
+        personGuid: 'nested_user_$index',
+        photo: 'https://i.pravatar.cc/150?img=${(index + 20) % 20}',
+        replyCreatedOn: _generateRandomTime(),
+        reactionCount: index % 3,
+      );
+    });
+  }
+
+  String _generateRandomText() {
+    final texts = [
+      'This is amazing! 😍',
+      'Great post! 👍',
+      'Love this content ❤️',
+      'Thanks for sharing! 🙏',
+      'Awesome work! 👏',
+      'Beautiful! ✨',
+      'Incredible! 🤩',
+      'Fantastic! 🎉',
+    ];
+    return texts[DateTime.now().millisecondsSinceEpoch % texts.length];
+  }
+
+  String _generateRandomTime() {
+    final times = [
+      'Just now',
+      '2 minutes ago',
+      '5 minutes ago',
+      '10 minutes ago',
+      '1 hour ago',
+      '2 hours ago',
+      'Today at 10:00 PM',
+      'Yesterday at 3:30 PM',
+    ];
+    return times[DateTime.now().millisecondsSinceEpoch % times.length];
   }
 }

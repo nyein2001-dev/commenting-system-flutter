@@ -9,6 +9,7 @@ class CommentItemWidget extends ConsumerWidget {
   final Function(String commentId, String userName) onReply;
   final Function(String commentId, ReactionType reaction) onReact;
   final Function(String commentId) onToggleExpansion;
+  final Function(String commentId) onLoadMoreReplies;
 
   const CommentItemWidget({
     super.key,
@@ -16,6 +17,7 @@ class CommentItemWidget extends ConsumerWidget {
     required this.onReply,
     required this.onReact,
     required this.onToggleExpansion,
+    required this.onLoadMoreReplies,
   });
 
   @override
@@ -155,11 +157,11 @@ class CommentItemWidget extends ConsumerWidget {
           ),
 
           // Replies
-          if (comment.replies.isNotEmpty) ...[
+          if (comment.replies.isNotEmpty || comment.replyCount > 0) ...[
             const SizedBox(height: 12),
 
             // Show More Replies Button
-            if (comment.replies.length > 1 && !comment.isExpanded)
+            if (comment.replyCount > 1 && !comment.isExpanded)
               GestureDetector(
                 onTap: () => onToggleExpansion(comment.guid),
                 child: Padding(
@@ -175,35 +177,65 @@ class CommentItemWidget extends ConsumerWidget {
                 ),
               ),
 
-            // Replies List
-            ...comment.replies.asMap().entries.map((entry) {
-              final index = entry.key;
-              final reply = entry.value;
+            // Replies List with optimized rendering
+            if (comment.replies.isNotEmpty)
+              ...comment.replies.asMap().entries.map((entry) {
+                final index = entry.key;
+                final reply = entry.value;
 
-              // Show first reply always, others only when expanded
-              if (index == 0 || comment.isExpanded) {
-                return ReplyItemWidget(
-                  reply: reply,
-                  commentId: comment.guid,
-                  onReply: (replyId, userName) {
-                    ref
-                        .read(commentProvider.notifier)
-                        .setReplyTarget(replyId, userName, CommentType.reply);
-                  },
-                  onReact: (replyId, reaction) {
-                    ref
-                        .read(commentProvider.notifier)
-                        .reactToReply(comment.guid, replyId, reaction);
-                  },
-                  onToggleExpansion: (replyId) {
-                    ref
-                        .read(commentProvider.notifier)
-                        .toggleReplyExpansion(comment.guid, replyId);
-                  },
-                );
-              }
-              return const SizedBox.shrink();
-            }),
+                // Show first reply always, others only when expanded
+                if (index == 0 || comment.isExpanded) {
+                  return ReplyItemWidget(
+                    key: ValueKey(reply.guid), // Important for performance
+                    reply: reply,
+                    commentId: comment.guid,
+                    onReply: (replyId, userName) {
+                      ref
+                          .read(commentProvider.notifier)
+                          .setReplyTarget(replyId, userName, CommentType.reply);
+                    },
+                    onReact: (replyId, reaction) {
+                      ref
+                          .read(commentProvider.notifier)
+                          .reactToReply(comment.guid, replyId, reaction);
+                    },
+                    onToggleExpansion: (replyId) {
+                      ref
+                          .read(commentProvider.notifier)
+                          .toggleReplyExpansion(comment.guid, replyId);
+                    },
+                    onLoadMoreNestedReplies: (replyId) {
+                      ref
+                          .read(commentProvider.notifier)
+                          .loadMoreNestedReplies(comment.guid, replyId);
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
+
+            // Load More Replies Button
+            if (comment.hasMoreReplies && comment.isExpanded)
+              GestureDetector(
+                onTap: () => onLoadMoreReplies(comment.guid),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 52, top: 8),
+                  child: comment.isLoadingReplies
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(
+                          'Load more replies',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.blue[600],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                ),
+              ),
 
             // Hide Replies Button
             if (comment.isExpanded && comment.replies.length > 1)
