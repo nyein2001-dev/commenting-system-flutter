@@ -33,6 +33,7 @@ _CommentItem _$CommentItemFromJson(Map<String, dynamic> json) => _CommentItem(
   hasMoreReplies: json['hasMoreReplies'] as bool? ?? false,
   lastReplyCursor: json['lastReplyCursor'] as String?,
   isSubmitting: json['isSubmitting'] as bool? ?? false,
+  isNewlyAdded: json['isNewlyAdded'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$CommentItemToJson(_CommentItem instance) =>
@@ -59,6 +60,7 @@ Map<String, dynamic> _$CommentItemToJson(_CommentItem instance) =>
       'hasMoreReplies': instance.hasMoreReplies,
       'lastReplyCursor': instance.lastReplyCursor,
       'isSubmitting': instance.isSubmitting,
+      'isNewlyAdded': instance.isNewlyAdded,
     };
 
 _ReplyItem _$ReplyItemFromJson(Map<String, dynamic> json) => _ReplyItem(
@@ -87,6 +89,7 @@ _ReplyItem _$ReplyItemFromJson(Map<String, dynamic> json) => _ReplyItem(
   hasMoreNestedReplies: json['hasMoreNestedReplies'] as bool? ?? false,
   lastNestedReplyCursor: json['lastNestedReplyCursor'] as String?,
   isSubmitting: json['isSubmitting'] as bool? ?? false,
+  isNewlyAdded: json['isNewlyAdded'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$ReplyItemToJson(_ReplyItem instance) =>
@@ -112,6 +115,7 @@ Map<String, dynamic> _$ReplyItemToJson(_ReplyItem instance) =>
       'hasMoreNestedReplies': instance.hasMoreNestedReplies,
       'lastNestedReplyCursor': instance.lastNestedReplyCursor,
       'isSubmitting': instance.isSubmitting,
+      'isNewlyAdded': instance.isNewlyAdded,
     };
 
 _NestedReplyItem _$NestedReplyItemFromJson(Map<String, dynamic> json) =>
@@ -129,6 +133,8 @@ _NestedReplyItem _$NestedReplyItemFromJson(Map<String, dynamic> json) =>
       pageGuid: json['pageGuid'] as String?,
       pageProfilePhoto: json['pageProfilePhoto'] as String?,
       loginUserReaction: json['loginUserReaction'] as String?,
+      isNewlyAdded: json['isNewlyAdded'] as bool? ?? false,
+      isSubmitting: json['isSubmitting'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$NestedReplyItemToJson(_NestedReplyItem instance) =>
@@ -146,6 +152,8 @@ Map<String, dynamic> _$NestedReplyItemToJson(_NestedReplyItem instance) =>
       'pageGuid': instance.pageGuid,
       'pageProfilePhoto': instance.pageProfilePhoto,
       'loginUserReaction': instance.loginUserReaction,
+      'isNewlyAdded': instance.isNewlyAdded,
+      'isSubmitting': instance.isSubmitting,
     };
 
 _CommentState _$CommentStateFromJson(Map<String, dynamic> json) =>

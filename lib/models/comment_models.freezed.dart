@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CommentItem {
 
- String get guid; String? get commentText; String? get commentPhoto; String? get commentVideo; String? get createdOn; String get name; String get personGuid; String? get photo; String? get pageName; String? get pageGuid; String? get pageProfilePhoto; int get reactionCount; int get replyCount; String? get postVideoGuid; String? get postPhotoGuid; String? get loginUserReaction; List<ReplyItem> get replies; bool get isExpanded; bool get isLoadingReplies; bool get hasMoreReplies; String? get lastReplyCursor; bool get isSubmitting;
+ String get guid; String? get commentText; String? get commentPhoto; String? get commentVideo; String? get createdOn; String get name; String get personGuid; String? get photo; String? get pageName; String? get pageGuid; String? get pageProfilePhoto; int get reactionCount; int get replyCount; String? get postVideoGuid; String? get postPhotoGuid; String? get loginUserReaction; List<ReplyItem> get replies; bool get isExpanded; bool get isLoadingReplies; bool get hasMoreReplies; String? get lastReplyCursor; bool get isSubmitting; bool get isNewlyAdded;
 /// Create a copy of CommentItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CommentItemCopyWith<CommentItem> get copyWith => _$CommentItemCopyWithImpl<Comm
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommentItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentText, commentText) || other.commentText == commentText)&&(identical(other.commentPhoto, commentPhoto) || other.commentPhoto == commentPhoto)&&(identical(other.commentVideo, commentVideo) || other.commentVideo == commentVideo)&&(identical(other.createdOn, createdOn) || other.createdOn == createdOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.postVideoGuid, postVideoGuid) || other.postVideoGuid == postVideoGuid)&&(identical(other.postPhotoGuid, postPhotoGuid) || other.postPhotoGuid == postPhotoGuid)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other.replies, replies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingReplies, isLoadingReplies) || other.isLoadingReplies == isLoadingReplies)&&(identical(other.hasMoreReplies, hasMoreReplies) || other.hasMoreReplies == hasMoreReplies)&&(identical(other.lastReplyCursor, lastReplyCursor) || other.lastReplyCursor == lastReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommentItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentText, commentText) || other.commentText == commentText)&&(identical(other.commentPhoto, commentPhoto) || other.commentPhoto == commentPhoto)&&(identical(other.commentVideo, commentVideo) || other.commentVideo == commentVideo)&&(identical(other.createdOn, createdOn) || other.createdOn == createdOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.postVideoGuid, postVideoGuid) || other.postVideoGuid == postVideoGuid)&&(identical(other.postPhotoGuid, postPhotoGuid) || other.postPhotoGuid == postPhotoGuid)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other.replies, replies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingReplies, isLoadingReplies) || other.isLoadingReplies == isLoadingReplies)&&(identical(other.hasMoreReplies, hasMoreReplies) || other.hasMoreReplies == hasMoreReplies)&&(identical(other.lastReplyCursor, lastReplyCursor) || other.lastReplyCursor == lastReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.isNewlyAdded, isNewlyAdded) || other.isNewlyAdded == isNewlyAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,guid,commentText,commentPhoto,commentVideo,createdOn,name,personGuid,photo,pageName,pageGuid,pageProfilePhoto,reactionCount,replyCount,postVideoGuid,postPhotoGuid,loginUserReaction,const DeepCollectionEquality().hash(replies),isExpanded,isLoadingReplies,hasMoreReplies,lastReplyCursor,isSubmitting]);
+int get hashCode => Object.hashAll([runtimeType,guid,commentText,commentPhoto,commentVideo,createdOn,name,personGuid,photo,pageName,pageGuid,pageProfilePhoto,reactionCount,replyCount,postVideoGuid,postPhotoGuid,loginUserReaction,const DeepCollectionEquality().hash(replies),isExpanded,isLoadingReplies,hasMoreReplies,lastReplyCursor,isSubmitting,isNewlyAdded]);
 
 @override
 String toString() {
-  return 'CommentItem(guid: $guid, commentText: $commentText, commentPhoto: $commentPhoto, commentVideo: $commentVideo, createdOn: $createdOn, name: $name, personGuid: $personGuid, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, reactionCount: $reactionCount, replyCount: $replyCount, postVideoGuid: $postVideoGuid, postPhotoGuid: $postPhotoGuid, loginUserReaction: $loginUserReaction, replies: $replies, isExpanded: $isExpanded, isLoadingReplies: $isLoadingReplies, hasMoreReplies: $hasMoreReplies, lastReplyCursor: $lastReplyCursor, isSubmitting: $isSubmitting)';
+  return 'CommentItem(guid: $guid, commentText: $commentText, commentPhoto: $commentPhoto, commentVideo: $commentVideo, createdOn: $createdOn, name: $name, personGuid: $personGuid, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, reactionCount: $reactionCount, replyCount: $replyCount, postVideoGuid: $postVideoGuid, postPhotoGuid: $postPhotoGuid, loginUserReaction: $loginUserReaction, replies: $replies, isExpanded: $isExpanded, isLoadingReplies: $isLoadingReplies, hasMoreReplies: $hasMoreReplies, lastReplyCursor: $lastReplyCursor, isSubmitting: $isSubmitting, isNewlyAdded: $isNewlyAdded)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CommentItemCopyWith<$Res>  {
   factory $CommentItemCopyWith(CommentItem value, $Res Function(CommentItem) _then) = _$CommentItemCopyWithImpl;
 @useResult
 $Res call({
- String guid, String? commentText, String? commentPhoto, String? commentVideo, String? createdOn, String name, String personGuid, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, int reactionCount, int replyCount, String? postVideoGuid, String? postPhotoGuid, String? loginUserReaction, List<ReplyItem> replies, bool isExpanded, bool isLoadingReplies, bool hasMoreReplies, String? lastReplyCursor, bool isSubmitting
+ String guid, String? commentText, String? commentPhoto, String? commentVideo, String? createdOn, String name, String personGuid, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, int reactionCount, int replyCount, String? postVideoGuid, String? postPhotoGuid, String? loginUserReaction, List<ReplyItem> replies, bool isExpanded, bool isLoadingReplies, bool hasMoreReplies, String? lastReplyCursor, bool isSubmitting, bool isNewlyAdded
 });
 
 
@@ -65,7 +65,7 @@ class _$CommentItemCopyWithImpl<$Res>
 
 /// Create a copy of CommentItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? guid = null,Object? commentText = freezed,Object? commentPhoto = freezed,Object? commentVideo = freezed,Object? createdOn = freezed,Object? name = null,Object? personGuid = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? reactionCount = null,Object? replyCount = null,Object? postVideoGuid = freezed,Object? postPhotoGuid = freezed,Object? loginUserReaction = freezed,Object? replies = null,Object? isExpanded = null,Object? isLoadingReplies = null,Object? hasMoreReplies = null,Object? lastReplyCursor = freezed,Object? isSubmitting = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? guid = null,Object? commentText = freezed,Object? commentPhoto = freezed,Object? commentVideo = freezed,Object? createdOn = freezed,Object? name = null,Object? personGuid = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? reactionCount = null,Object? replyCount = null,Object? postVideoGuid = freezed,Object? postPhotoGuid = freezed,Object? loginUserReaction = freezed,Object? replies = null,Object? isExpanded = null,Object? isLoadingReplies = null,Object? hasMoreReplies = null,Object? lastReplyCursor = freezed,Object? isSubmitting = null,Object? isNewlyAdded = null,}) {
   return _then(_self.copyWith(
 guid: null == guid ? _self.guid : guid // ignore: cast_nullable_to_non_nullable
 as String,commentText: freezed == commentText ? _self.commentText : commentText // ignore: cast_nullable_to_non_nullable
@@ -89,6 +89,7 @@ as bool,isLoadingReplies: null == isLoadingReplies ? _self.isLoadingReplies : is
 as bool,hasMoreReplies: null == hasMoreReplies ? _self.hasMoreReplies : hasMoreReplies // ignore: cast_nullable_to_non_nullable
 as bool,lastReplyCursor: freezed == lastReplyCursor ? _self.lastReplyCursor : lastReplyCursor // ignore: cast_nullable_to_non_nullable
 as String?,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as bool,isNewlyAdded: null == isNewlyAdded ? _self.isNewlyAdded : isNewlyAdded // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -174,10 +175,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guid,  String? commentText,  String? commentPhoto,  String? commentVideo,  String? createdOn,  String name,  String personGuid,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  int reactionCount,  int replyCount,  String? postVideoGuid,  String? postPhotoGuid,  String? loginUserReaction,  List<ReplyItem> replies,  bool isExpanded,  bool isLoadingReplies,  bool hasMoreReplies,  String? lastReplyCursor,  bool isSubmitting)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guid,  String? commentText,  String? commentPhoto,  String? commentVideo,  String? createdOn,  String name,  String personGuid,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  int reactionCount,  int replyCount,  String? postVideoGuid,  String? postPhotoGuid,  String? loginUserReaction,  List<ReplyItem> replies,  bool isExpanded,  bool isLoadingReplies,  bool hasMoreReplies,  String? lastReplyCursor,  bool isSubmitting,  bool isNewlyAdded)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommentItem() when $default != null:
-return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVideo,_that.createdOn,_that.name,_that.personGuid,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.reactionCount,_that.replyCount,_that.postVideoGuid,_that.postPhotoGuid,_that.loginUserReaction,_that.replies,_that.isExpanded,_that.isLoadingReplies,_that.hasMoreReplies,_that.lastReplyCursor,_that.isSubmitting);case _:
+return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVideo,_that.createdOn,_that.name,_that.personGuid,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.reactionCount,_that.replyCount,_that.postVideoGuid,_that.postPhotoGuid,_that.loginUserReaction,_that.replies,_that.isExpanded,_that.isLoadingReplies,_that.hasMoreReplies,_that.lastReplyCursor,_that.isSubmitting,_that.isNewlyAdded);case _:
   return orElse();
 
 }
@@ -195,10 +196,10 @@ return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVid
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guid,  String? commentText,  String? commentPhoto,  String? commentVideo,  String? createdOn,  String name,  String personGuid,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  int reactionCount,  int replyCount,  String? postVideoGuid,  String? postPhotoGuid,  String? loginUserReaction,  List<ReplyItem> replies,  bool isExpanded,  bool isLoadingReplies,  bool hasMoreReplies,  String? lastReplyCursor,  bool isSubmitting)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guid,  String? commentText,  String? commentPhoto,  String? commentVideo,  String? createdOn,  String name,  String personGuid,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  int reactionCount,  int replyCount,  String? postVideoGuid,  String? postPhotoGuid,  String? loginUserReaction,  List<ReplyItem> replies,  bool isExpanded,  bool isLoadingReplies,  bool hasMoreReplies,  String? lastReplyCursor,  bool isSubmitting,  bool isNewlyAdded)  $default,) {final _that = this;
 switch (_that) {
 case _CommentItem():
-return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVideo,_that.createdOn,_that.name,_that.personGuid,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.reactionCount,_that.replyCount,_that.postVideoGuid,_that.postPhotoGuid,_that.loginUserReaction,_that.replies,_that.isExpanded,_that.isLoadingReplies,_that.hasMoreReplies,_that.lastReplyCursor,_that.isSubmitting);case _:
+return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVideo,_that.createdOn,_that.name,_that.personGuid,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.reactionCount,_that.replyCount,_that.postVideoGuid,_that.postPhotoGuid,_that.loginUserReaction,_that.replies,_that.isExpanded,_that.isLoadingReplies,_that.hasMoreReplies,_that.lastReplyCursor,_that.isSubmitting,_that.isNewlyAdded);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -215,10 +216,10 @@ return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVid
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guid,  String? commentText,  String? commentPhoto,  String? commentVideo,  String? createdOn,  String name,  String personGuid,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  int reactionCount,  int replyCount,  String? postVideoGuid,  String? postPhotoGuid,  String? loginUserReaction,  List<ReplyItem> replies,  bool isExpanded,  bool isLoadingReplies,  bool hasMoreReplies,  String? lastReplyCursor,  bool isSubmitting)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guid,  String? commentText,  String? commentPhoto,  String? commentVideo,  String? createdOn,  String name,  String personGuid,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  int reactionCount,  int replyCount,  String? postVideoGuid,  String? postPhotoGuid,  String? loginUserReaction,  List<ReplyItem> replies,  bool isExpanded,  bool isLoadingReplies,  bool hasMoreReplies,  String? lastReplyCursor,  bool isSubmitting,  bool isNewlyAdded)?  $default,) {final _that = this;
 switch (_that) {
 case _CommentItem() when $default != null:
-return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVideo,_that.createdOn,_that.name,_that.personGuid,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.reactionCount,_that.replyCount,_that.postVideoGuid,_that.postPhotoGuid,_that.loginUserReaction,_that.replies,_that.isExpanded,_that.isLoadingReplies,_that.hasMoreReplies,_that.lastReplyCursor,_that.isSubmitting);case _:
+return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVideo,_that.createdOn,_that.name,_that.personGuid,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.reactionCount,_that.replyCount,_that.postVideoGuid,_that.postPhotoGuid,_that.loginUserReaction,_that.replies,_that.isExpanded,_that.isLoadingReplies,_that.hasMoreReplies,_that.lastReplyCursor,_that.isSubmitting,_that.isNewlyAdded);case _:
   return null;
 
 }
@@ -230,7 +231,7 @@ return $default(_that.guid,_that.commentText,_that.commentPhoto,_that.commentVid
 @JsonSerializable()
 
 class _CommentItem implements CommentItem {
-  const _CommentItem({required this.guid, this.commentText, this.commentPhoto, this.commentVideo, this.createdOn, required this.name, required this.personGuid, this.photo, this.pageName, this.pageGuid, this.pageProfilePhoto, this.reactionCount = 0, this.replyCount = 0, this.postVideoGuid, this.postPhotoGuid, this.loginUserReaction, final  List<ReplyItem> replies = const [], this.isExpanded = false, this.isLoadingReplies = false, this.hasMoreReplies = false, this.lastReplyCursor, this.isSubmitting = false}): _replies = replies;
+  const _CommentItem({required this.guid, this.commentText, this.commentPhoto, this.commentVideo, this.createdOn, required this.name, required this.personGuid, this.photo, this.pageName, this.pageGuid, this.pageProfilePhoto, this.reactionCount = 0, this.replyCount = 0, this.postVideoGuid, this.postPhotoGuid, this.loginUserReaction, final  List<ReplyItem> replies = const [], this.isExpanded = false, this.isLoadingReplies = false, this.hasMoreReplies = false, this.lastReplyCursor, this.isSubmitting = false, this.isNewlyAdded = false}): _replies = replies;
   factory _CommentItem.fromJson(Map<String, dynamic> json) => _$CommentItemFromJson(json);
 
 @override final  String guid;
@@ -261,6 +262,7 @@ class _CommentItem implements CommentItem {
 @override@JsonKey() final  bool hasMoreReplies;
 @override final  String? lastReplyCursor;
 @override@JsonKey() final  bool isSubmitting;
+@override@JsonKey() final  bool isNewlyAdded;
 
 /// Create a copy of CommentItem
 /// with the given fields replaced by the non-null parameter values.
@@ -275,16 +277,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommentItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentText, commentText) || other.commentText == commentText)&&(identical(other.commentPhoto, commentPhoto) || other.commentPhoto == commentPhoto)&&(identical(other.commentVideo, commentVideo) || other.commentVideo == commentVideo)&&(identical(other.createdOn, createdOn) || other.createdOn == createdOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.postVideoGuid, postVideoGuid) || other.postVideoGuid == postVideoGuid)&&(identical(other.postPhotoGuid, postPhotoGuid) || other.postPhotoGuid == postPhotoGuid)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other._replies, _replies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingReplies, isLoadingReplies) || other.isLoadingReplies == isLoadingReplies)&&(identical(other.hasMoreReplies, hasMoreReplies) || other.hasMoreReplies == hasMoreReplies)&&(identical(other.lastReplyCursor, lastReplyCursor) || other.lastReplyCursor == lastReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommentItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentText, commentText) || other.commentText == commentText)&&(identical(other.commentPhoto, commentPhoto) || other.commentPhoto == commentPhoto)&&(identical(other.commentVideo, commentVideo) || other.commentVideo == commentVideo)&&(identical(other.createdOn, createdOn) || other.createdOn == createdOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.postVideoGuid, postVideoGuid) || other.postVideoGuid == postVideoGuid)&&(identical(other.postPhotoGuid, postPhotoGuid) || other.postPhotoGuid == postPhotoGuid)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other._replies, _replies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingReplies, isLoadingReplies) || other.isLoadingReplies == isLoadingReplies)&&(identical(other.hasMoreReplies, hasMoreReplies) || other.hasMoreReplies == hasMoreReplies)&&(identical(other.lastReplyCursor, lastReplyCursor) || other.lastReplyCursor == lastReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.isNewlyAdded, isNewlyAdded) || other.isNewlyAdded == isNewlyAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,guid,commentText,commentPhoto,commentVideo,createdOn,name,personGuid,photo,pageName,pageGuid,pageProfilePhoto,reactionCount,replyCount,postVideoGuid,postPhotoGuid,loginUserReaction,const DeepCollectionEquality().hash(_replies),isExpanded,isLoadingReplies,hasMoreReplies,lastReplyCursor,isSubmitting]);
+int get hashCode => Object.hashAll([runtimeType,guid,commentText,commentPhoto,commentVideo,createdOn,name,personGuid,photo,pageName,pageGuid,pageProfilePhoto,reactionCount,replyCount,postVideoGuid,postPhotoGuid,loginUserReaction,const DeepCollectionEquality().hash(_replies),isExpanded,isLoadingReplies,hasMoreReplies,lastReplyCursor,isSubmitting,isNewlyAdded]);
 
 @override
 String toString() {
-  return 'CommentItem(guid: $guid, commentText: $commentText, commentPhoto: $commentPhoto, commentVideo: $commentVideo, createdOn: $createdOn, name: $name, personGuid: $personGuid, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, reactionCount: $reactionCount, replyCount: $replyCount, postVideoGuid: $postVideoGuid, postPhotoGuid: $postPhotoGuid, loginUserReaction: $loginUserReaction, replies: $replies, isExpanded: $isExpanded, isLoadingReplies: $isLoadingReplies, hasMoreReplies: $hasMoreReplies, lastReplyCursor: $lastReplyCursor, isSubmitting: $isSubmitting)';
+  return 'CommentItem(guid: $guid, commentText: $commentText, commentPhoto: $commentPhoto, commentVideo: $commentVideo, createdOn: $createdOn, name: $name, personGuid: $personGuid, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, reactionCount: $reactionCount, replyCount: $replyCount, postVideoGuid: $postVideoGuid, postPhotoGuid: $postPhotoGuid, loginUserReaction: $loginUserReaction, replies: $replies, isExpanded: $isExpanded, isLoadingReplies: $isLoadingReplies, hasMoreReplies: $hasMoreReplies, lastReplyCursor: $lastReplyCursor, isSubmitting: $isSubmitting, isNewlyAdded: $isNewlyAdded)';
 }
 
 
@@ -295,7 +297,7 @@ abstract mixin class _$CommentItemCopyWith<$Res> implements $CommentItemCopyWith
   factory _$CommentItemCopyWith(_CommentItem value, $Res Function(_CommentItem) _then) = __$CommentItemCopyWithImpl;
 @override @useResult
 $Res call({
- String guid, String? commentText, String? commentPhoto, String? commentVideo, String? createdOn, String name, String personGuid, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, int reactionCount, int replyCount, String? postVideoGuid, String? postPhotoGuid, String? loginUserReaction, List<ReplyItem> replies, bool isExpanded, bool isLoadingReplies, bool hasMoreReplies, String? lastReplyCursor, bool isSubmitting
+ String guid, String? commentText, String? commentPhoto, String? commentVideo, String? createdOn, String name, String personGuid, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, int reactionCount, int replyCount, String? postVideoGuid, String? postPhotoGuid, String? loginUserReaction, List<ReplyItem> replies, bool isExpanded, bool isLoadingReplies, bool hasMoreReplies, String? lastReplyCursor, bool isSubmitting, bool isNewlyAdded
 });
 
 
@@ -312,7 +314,7 @@ class __$CommentItemCopyWithImpl<$Res>
 
 /// Create a copy of CommentItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? guid = null,Object? commentText = freezed,Object? commentPhoto = freezed,Object? commentVideo = freezed,Object? createdOn = freezed,Object? name = null,Object? personGuid = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? reactionCount = null,Object? replyCount = null,Object? postVideoGuid = freezed,Object? postPhotoGuid = freezed,Object? loginUserReaction = freezed,Object? replies = null,Object? isExpanded = null,Object? isLoadingReplies = null,Object? hasMoreReplies = null,Object? lastReplyCursor = freezed,Object? isSubmitting = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? guid = null,Object? commentText = freezed,Object? commentPhoto = freezed,Object? commentVideo = freezed,Object? createdOn = freezed,Object? name = null,Object? personGuid = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? reactionCount = null,Object? replyCount = null,Object? postVideoGuid = freezed,Object? postPhotoGuid = freezed,Object? loginUserReaction = freezed,Object? replies = null,Object? isExpanded = null,Object? isLoadingReplies = null,Object? hasMoreReplies = null,Object? lastReplyCursor = freezed,Object? isSubmitting = null,Object? isNewlyAdded = null,}) {
   return _then(_CommentItem(
 guid: null == guid ? _self.guid : guid // ignore: cast_nullable_to_non_nullable
 as String,commentText: freezed == commentText ? _self.commentText : commentText // ignore: cast_nullable_to_non_nullable
@@ -336,6 +338,7 @@ as bool,isLoadingReplies: null == isLoadingReplies ? _self.isLoadingReplies : is
 as bool,hasMoreReplies: null == hasMoreReplies ? _self.hasMoreReplies : hasMoreReplies // ignore: cast_nullable_to_non_nullable
 as bool,lastReplyCursor: freezed == lastReplyCursor ? _self.lastReplyCursor : lastReplyCursor // ignore: cast_nullable_to_non_nullable
 as String?,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as bool,isNewlyAdded: null == isNewlyAdded ? _self.isNewlyAdded : isNewlyAdded // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -347,7 +350,7 @@ as bool,
 /// @nodoc
 mixin _$ReplyItem {
 
- String get guid; String get commentGuid; String? get replyComment; String? get replyCommentPhoto; String? get replyCommentVideo; String? get replyCreatedOn; String get name; String get personGuid; int get replyCount; int get reactionCount; String? get photo; String? get pageName; String? get pageGuid; String? get pageProfilePhoto; String? get loginUserReaction; List<NestedReplyItem> get nestedReplies; bool get isExpanded; bool get isLoadingNestedReplies; bool get hasMoreNestedReplies; String? get lastNestedReplyCursor; bool get isSubmitting;
+ String get guid; String get commentGuid; String? get replyComment; String? get replyCommentPhoto; String? get replyCommentVideo; String? get replyCreatedOn; String get name; String get personGuid; int get replyCount; int get reactionCount; String? get photo; String? get pageName; String? get pageGuid; String? get pageProfilePhoto; String? get loginUserReaction; List<NestedReplyItem> get nestedReplies; bool get isExpanded; bool get isLoadingNestedReplies; bool get hasMoreNestedReplies; String? get lastNestedReplyCursor; bool get isSubmitting; bool get isNewlyAdded;
 /// Create a copy of ReplyItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -360,16 +363,16 @@ $ReplyItemCopyWith<ReplyItem> get copyWith => _$ReplyItemCopyWithImpl<ReplyItem>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentGuid, commentGuid) || other.commentGuid == commentGuid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other.nestedReplies, nestedReplies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingNestedReplies, isLoadingNestedReplies) || other.isLoadingNestedReplies == isLoadingNestedReplies)&&(identical(other.hasMoreNestedReplies, hasMoreNestedReplies) || other.hasMoreNestedReplies == hasMoreNestedReplies)&&(identical(other.lastNestedReplyCursor, lastNestedReplyCursor) || other.lastNestedReplyCursor == lastNestedReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentGuid, commentGuid) || other.commentGuid == commentGuid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other.nestedReplies, nestedReplies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingNestedReplies, isLoadingNestedReplies) || other.isLoadingNestedReplies == isLoadingNestedReplies)&&(identical(other.hasMoreNestedReplies, hasMoreNestedReplies) || other.hasMoreNestedReplies == hasMoreNestedReplies)&&(identical(other.lastNestedReplyCursor, lastNestedReplyCursor) || other.lastNestedReplyCursor == lastNestedReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.isNewlyAdded, isNewlyAdded) || other.isNewlyAdded == isNewlyAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,guid,commentGuid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,replyCount,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction,const DeepCollectionEquality().hash(nestedReplies),isExpanded,isLoadingNestedReplies,hasMoreNestedReplies,lastNestedReplyCursor,isSubmitting]);
+int get hashCode => Object.hashAll([runtimeType,guid,commentGuid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,replyCount,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction,const DeepCollectionEquality().hash(nestedReplies),isExpanded,isLoadingNestedReplies,hasMoreNestedReplies,lastNestedReplyCursor,isSubmitting,isNewlyAdded]);
 
 @override
 String toString() {
-  return 'ReplyItem(guid: $guid, commentGuid: $commentGuid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, replyCount: $replyCount, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction, nestedReplies: $nestedReplies, isExpanded: $isExpanded, isLoadingNestedReplies: $isLoadingNestedReplies, hasMoreNestedReplies: $hasMoreNestedReplies, lastNestedReplyCursor: $lastNestedReplyCursor, isSubmitting: $isSubmitting)';
+  return 'ReplyItem(guid: $guid, commentGuid: $commentGuid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, replyCount: $replyCount, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction, nestedReplies: $nestedReplies, isExpanded: $isExpanded, isLoadingNestedReplies: $isLoadingNestedReplies, hasMoreNestedReplies: $hasMoreNestedReplies, lastNestedReplyCursor: $lastNestedReplyCursor, isSubmitting: $isSubmitting, isNewlyAdded: $isNewlyAdded)';
 }
 
 
@@ -380,7 +383,7 @@ abstract mixin class $ReplyItemCopyWith<$Res>  {
   factory $ReplyItemCopyWith(ReplyItem value, $Res Function(ReplyItem) _then) = _$ReplyItemCopyWithImpl;
 @useResult
 $Res call({
- String guid, String commentGuid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int replyCount, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction, List<NestedReplyItem> nestedReplies, bool isExpanded, bool isLoadingNestedReplies, bool hasMoreNestedReplies, String? lastNestedReplyCursor, bool isSubmitting
+ String guid, String commentGuid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int replyCount, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction, List<NestedReplyItem> nestedReplies, bool isExpanded, bool isLoadingNestedReplies, bool hasMoreNestedReplies, String? lastNestedReplyCursor, bool isSubmitting, bool isNewlyAdded
 });
 
 
@@ -397,7 +400,7 @@ class _$ReplyItemCopyWithImpl<$Res>
 
 /// Create a copy of ReplyItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? guid = null,Object? commentGuid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? replyCount = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,Object? nestedReplies = null,Object? isExpanded = null,Object? isLoadingNestedReplies = null,Object? hasMoreNestedReplies = null,Object? lastNestedReplyCursor = freezed,Object? isSubmitting = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? guid = null,Object? commentGuid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? replyCount = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,Object? nestedReplies = null,Object? isExpanded = null,Object? isLoadingNestedReplies = null,Object? hasMoreNestedReplies = null,Object? lastNestedReplyCursor = freezed,Object? isSubmitting = null,Object? isNewlyAdded = null,}) {
   return _then(_self.copyWith(
 guid: null == guid ? _self.guid : guid // ignore: cast_nullable_to_non_nullable
 as String,commentGuid: null == commentGuid ? _self.commentGuid : commentGuid // ignore: cast_nullable_to_non_nullable
@@ -420,6 +423,7 @@ as bool,isLoadingNestedReplies: null == isLoadingNestedReplies ? _self.isLoading
 as bool,hasMoreNestedReplies: null == hasMoreNestedReplies ? _self.hasMoreNestedReplies : hasMoreNestedReplies // ignore: cast_nullable_to_non_nullable
 as bool,lastNestedReplyCursor: freezed == lastNestedReplyCursor ? _self.lastNestedReplyCursor : lastNestedReplyCursor // ignore: cast_nullable_to_non_nullable
 as String?,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as bool,isNewlyAdded: null == isNewlyAdded ? _self.isNewlyAdded : isNewlyAdded // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -505,10 +509,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guid,  String commentGuid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int replyCount,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  List<NestedReplyItem> nestedReplies,  bool isExpanded,  bool isLoadingNestedReplies,  bool hasMoreNestedReplies,  String? lastNestedReplyCursor,  bool isSubmitting)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guid,  String commentGuid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int replyCount,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  List<NestedReplyItem> nestedReplies,  bool isExpanded,  bool isLoadingNestedReplies,  bool hasMoreNestedReplies,  String? lastNestedReplyCursor,  bool isSubmitting,  bool isNewlyAdded)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReplyItem() when $default != null:
-return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.replyCount,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.nestedReplies,_that.isExpanded,_that.isLoadingNestedReplies,_that.hasMoreNestedReplies,_that.lastNestedReplyCursor,_that.isSubmitting);case _:
+return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.replyCount,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.nestedReplies,_that.isExpanded,_that.isLoadingNestedReplies,_that.hasMoreNestedReplies,_that.lastNestedReplyCursor,_that.isSubmitting,_that.isNewlyAdded);case _:
   return orElse();
 
 }
@@ -526,10 +530,10 @@ return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyComme
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guid,  String commentGuid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int replyCount,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  List<NestedReplyItem> nestedReplies,  bool isExpanded,  bool isLoadingNestedReplies,  bool hasMoreNestedReplies,  String? lastNestedReplyCursor,  bool isSubmitting)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guid,  String commentGuid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int replyCount,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  List<NestedReplyItem> nestedReplies,  bool isExpanded,  bool isLoadingNestedReplies,  bool hasMoreNestedReplies,  String? lastNestedReplyCursor,  bool isSubmitting,  bool isNewlyAdded)  $default,) {final _that = this;
 switch (_that) {
 case _ReplyItem():
-return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.replyCount,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.nestedReplies,_that.isExpanded,_that.isLoadingNestedReplies,_that.hasMoreNestedReplies,_that.lastNestedReplyCursor,_that.isSubmitting);case _:
+return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.replyCount,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.nestedReplies,_that.isExpanded,_that.isLoadingNestedReplies,_that.hasMoreNestedReplies,_that.lastNestedReplyCursor,_that.isSubmitting,_that.isNewlyAdded);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -546,10 +550,10 @@ return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyComme
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guid,  String commentGuid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int replyCount,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  List<NestedReplyItem> nestedReplies,  bool isExpanded,  bool isLoadingNestedReplies,  bool hasMoreNestedReplies,  String? lastNestedReplyCursor,  bool isSubmitting)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guid,  String commentGuid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int replyCount,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  List<NestedReplyItem> nestedReplies,  bool isExpanded,  bool isLoadingNestedReplies,  bool hasMoreNestedReplies,  String? lastNestedReplyCursor,  bool isSubmitting,  bool isNewlyAdded)?  $default,) {final _that = this;
 switch (_that) {
 case _ReplyItem() when $default != null:
-return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.replyCount,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.nestedReplies,_that.isExpanded,_that.isLoadingNestedReplies,_that.hasMoreNestedReplies,_that.lastNestedReplyCursor,_that.isSubmitting);case _:
+return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.replyCount,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.nestedReplies,_that.isExpanded,_that.isLoadingNestedReplies,_that.hasMoreNestedReplies,_that.lastNestedReplyCursor,_that.isSubmitting,_that.isNewlyAdded);case _:
   return null;
 
 }
@@ -561,7 +565,7 @@ return $default(_that.guid,_that.commentGuid,_that.replyComment,_that.replyComme
 @JsonSerializable()
 
 class _ReplyItem implements ReplyItem {
-  const _ReplyItem({required this.guid, required this.commentGuid, this.replyComment, this.replyCommentPhoto, this.replyCommentVideo, this.replyCreatedOn, required this.name, required this.personGuid, this.replyCount = 0, this.reactionCount = 0, this.photo, this.pageName, this.pageGuid, this.pageProfilePhoto, this.loginUserReaction, final  List<NestedReplyItem> nestedReplies = const [], this.isExpanded = false, this.isLoadingNestedReplies = false, this.hasMoreNestedReplies = false, this.lastNestedReplyCursor, this.isSubmitting = false}): _nestedReplies = nestedReplies;
+  const _ReplyItem({required this.guid, required this.commentGuid, this.replyComment, this.replyCommentPhoto, this.replyCommentVideo, this.replyCreatedOn, required this.name, required this.personGuid, this.replyCount = 0, this.reactionCount = 0, this.photo, this.pageName, this.pageGuid, this.pageProfilePhoto, this.loginUserReaction, final  List<NestedReplyItem> nestedReplies = const [], this.isExpanded = false, this.isLoadingNestedReplies = false, this.hasMoreNestedReplies = false, this.lastNestedReplyCursor, this.isSubmitting = false, this.isNewlyAdded = false}): _nestedReplies = nestedReplies;
   factory _ReplyItem.fromJson(Map<String, dynamic> json) => _$ReplyItemFromJson(json);
 
 @override final  String guid;
@@ -591,6 +595,7 @@ class _ReplyItem implements ReplyItem {
 @override@JsonKey() final  bool hasMoreNestedReplies;
 @override final  String? lastNestedReplyCursor;
 @override@JsonKey() final  bool isSubmitting;
+@override@JsonKey() final  bool isNewlyAdded;
 
 /// Create a copy of ReplyItem
 /// with the given fields replaced by the non-null parameter values.
@@ -605,16 +610,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentGuid, commentGuid) || other.commentGuid == commentGuid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other._nestedReplies, _nestedReplies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingNestedReplies, isLoadingNestedReplies) || other.isLoadingNestedReplies == isLoadingNestedReplies)&&(identical(other.hasMoreNestedReplies, hasMoreNestedReplies) || other.hasMoreNestedReplies == hasMoreNestedReplies)&&(identical(other.lastNestedReplyCursor, lastNestedReplyCursor) || other.lastNestedReplyCursor == lastNestedReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.commentGuid, commentGuid) || other.commentGuid == commentGuid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&const DeepCollectionEquality().equals(other._nestedReplies, _nestedReplies)&&(identical(other.isExpanded, isExpanded) || other.isExpanded == isExpanded)&&(identical(other.isLoadingNestedReplies, isLoadingNestedReplies) || other.isLoadingNestedReplies == isLoadingNestedReplies)&&(identical(other.hasMoreNestedReplies, hasMoreNestedReplies) || other.hasMoreNestedReplies == hasMoreNestedReplies)&&(identical(other.lastNestedReplyCursor, lastNestedReplyCursor) || other.lastNestedReplyCursor == lastNestedReplyCursor)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.isNewlyAdded, isNewlyAdded) || other.isNewlyAdded == isNewlyAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,guid,commentGuid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,replyCount,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction,const DeepCollectionEquality().hash(_nestedReplies),isExpanded,isLoadingNestedReplies,hasMoreNestedReplies,lastNestedReplyCursor,isSubmitting]);
+int get hashCode => Object.hashAll([runtimeType,guid,commentGuid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,replyCount,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction,const DeepCollectionEquality().hash(_nestedReplies),isExpanded,isLoadingNestedReplies,hasMoreNestedReplies,lastNestedReplyCursor,isSubmitting,isNewlyAdded]);
 
 @override
 String toString() {
-  return 'ReplyItem(guid: $guid, commentGuid: $commentGuid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, replyCount: $replyCount, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction, nestedReplies: $nestedReplies, isExpanded: $isExpanded, isLoadingNestedReplies: $isLoadingNestedReplies, hasMoreNestedReplies: $hasMoreNestedReplies, lastNestedReplyCursor: $lastNestedReplyCursor, isSubmitting: $isSubmitting)';
+  return 'ReplyItem(guid: $guid, commentGuid: $commentGuid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, replyCount: $replyCount, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction, nestedReplies: $nestedReplies, isExpanded: $isExpanded, isLoadingNestedReplies: $isLoadingNestedReplies, hasMoreNestedReplies: $hasMoreNestedReplies, lastNestedReplyCursor: $lastNestedReplyCursor, isSubmitting: $isSubmitting, isNewlyAdded: $isNewlyAdded)';
 }
 
 
@@ -625,7 +630,7 @@ abstract mixin class _$ReplyItemCopyWith<$Res> implements $ReplyItemCopyWith<$Re
   factory _$ReplyItemCopyWith(_ReplyItem value, $Res Function(_ReplyItem) _then) = __$ReplyItemCopyWithImpl;
 @override @useResult
 $Res call({
- String guid, String commentGuid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int replyCount, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction, List<NestedReplyItem> nestedReplies, bool isExpanded, bool isLoadingNestedReplies, bool hasMoreNestedReplies, String? lastNestedReplyCursor, bool isSubmitting
+ String guid, String commentGuid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int replyCount, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction, List<NestedReplyItem> nestedReplies, bool isExpanded, bool isLoadingNestedReplies, bool hasMoreNestedReplies, String? lastNestedReplyCursor, bool isSubmitting, bool isNewlyAdded
 });
 
 
@@ -642,7 +647,7 @@ class __$ReplyItemCopyWithImpl<$Res>
 
 /// Create a copy of ReplyItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? guid = null,Object? commentGuid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? replyCount = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,Object? nestedReplies = null,Object? isExpanded = null,Object? isLoadingNestedReplies = null,Object? hasMoreNestedReplies = null,Object? lastNestedReplyCursor = freezed,Object? isSubmitting = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? guid = null,Object? commentGuid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? replyCount = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,Object? nestedReplies = null,Object? isExpanded = null,Object? isLoadingNestedReplies = null,Object? hasMoreNestedReplies = null,Object? lastNestedReplyCursor = freezed,Object? isSubmitting = null,Object? isNewlyAdded = null,}) {
   return _then(_ReplyItem(
 guid: null == guid ? _self.guid : guid // ignore: cast_nullable_to_non_nullable
 as String,commentGuid: null == commentGuid ? _self.commentGuid : commentGuid // ignore: cast_nullable_to_non_nullable
@@ -665,6 +670,7 @@ as bool,isLoadingNestedReplies: null == isLoadingNestedReplies ? _self.isLoading
 as bool,hasMoreNestedReplies: null == hasMoreNestedReplies ? _self.hasMoreNestedReplies : hasMoreNestedReplies // ignore: cast_nullable_to_non_nullable
 as bool,lastNestedReplyCursor: freezed == lastNestedReplyCursor ? _self.lastNestedReplyCursor : lastNestedReplyCursor // ignore: cast_nullable_to_non_nullable
 as String?,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as bool,isNewlyAdded: null == isNewlyAdded ? _self.isNewlyAdded : isNewlyAdded // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -676,7 +682,7 @@ as bool,
 /// @nodoc
 mixin _$NestedReplyItem {
 
- String get guid; String? get replyComment; String? get replyCommentPhoto; String? get replyCommentVideo; String? get replyCreatedOn; String get name; String get personGuid; int get reactionCount; String? get photo; String? get pageName; String? get pageGuid; String? get pageProfilePhoto; String? get loginUserReaction;
+ String get guid; String? get replyComment; String? get replyCommentPhoto; String? get replyCommentVideo; String? get replyCreatedOn; String get name; String get personGuid; int get reactionCount; String? get photo; String? get pageName; String? get pageGuid; String? get pageProfilePhoto; String? get loginUserReaction; bool get isNewlyAdded; bool get isSubmitting;
 /// Create a copy of NestedReplyItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -689,16 +695,16 @@ $NestedReplyItemCopyWith<NestedReplyItem> get copyWith => _$NestedReplyItemCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NestedReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NestedReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&(identical(other.isNewlyAdded, isNewlyAdded) || other.isNewlyAdded == isNewlyAdded)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,guid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction);
+int get hashCode => Object.hash(runtimeType,guid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction,isNewlyAdded,isSubmitting);
 
 @override
 String toString() {
-  return 'NestedReplyItem(guid: $guid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction)';
+  return 'NestedReplyItem(guid: $guid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction, isNewlyAdded: $isNewlyAdded, isSubmitting: $isSubmitting)';
 }
 
 
@@ -709,7 +715,7 @@ abstract mixin class $NestedReplyItemCopyWith<$Res>  {
   factory $NestedReplyItemCopyWith(NestedReplyItem value, $Res Function(NestedReplyItem) _then) = _$NestedReplyItemCopyWithImpl;
 @useResult
 $Res call({
- String guid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction
+ String guid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction, bool isNewlyAdded, bool isSubmitting
 });
 
 
@@ -726,7 +732,7 @@ class _$NestedReplyItemCopyWithImpl<$Res>
 
 /// Create a copy of NestedReplyItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? guid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? guid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,Object? isNewlyAdded = null,Object? isSubmitting = null,}) {
   return _then(_self.copyWith(
 guid: null == guid ? _self.guid : guid // ignore: cast_nullable_to_non_nullable
 as String,replyComment: freezed == replyComment ? _self.replyComment : replyComment // ignore: cast_nullable_to_non_nullable
@@ -741,7 +747,9 @@ as String?,pageName: freezed == pageName ? _self.pageName : pageName // ignore: 
 as String?,pageGuid: freezed == pageGuid ? _self.pageGuid : pageGuid // ignore: cast_nullable_to_non_nullable
 as String?,pageProfilePhoto: freezed == pageProfilePhoto ? _self.pageProfilePhoto : pageProfilePhoto // ignore: cast_nullable_to_non_nullable
 as String?,loginUserReaction: freezed == loginUserReaction ? _self.loginUserReaction : loginUserReaction // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isNewlyAdded: null == isNewlyAdded ? _self.isNewlyAdded : isNewlyAdded // ignore: cast_nullable_to_non_nullable
+as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -826,10 +834,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  bool isNewlyAdded,  bool isSubmitting)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NestedReplyItem() when $default != null:
-return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction);case _:
+return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.isNewlyAdded,_that.isSubmitting);case _:
   return orElse();
 
 }
@@ -847,10 +855,10 @@ return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.repl
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  bool isNewlyAdded,  bool isSubmitting)  $default,) {final _that = this;
 switch (_that) {
 case _NestedReplyItem():
-return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction);case _:
+return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.isNewlyAdded,_that.isSubmitting);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -867,10 +875,10 @@ return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.repl
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guid,  String? replyComment,  String? replyCommentPhoto,  String? replyCommentVideo,  String? replyCreatedOn,  String name,  String personGuid,  int reactionCount,  String? photo,  String? pageName,  String? pageGuid,  String? pageProfilePhoto,  String? loginUserReaction,  bool isNewlyAdded,  bool isSubmitting)?  $default,) {final _that = this;
 switch (_that) {
 case _NestedReplyItem() when $default != null:
-return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction);case _:
+return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.replyCommentVideo,_that.replyCreatedOn,_that.name,_that.personGuid,_that.reactionCount,_that.photo,_that.pageName,_that.pageGuid,_that.pageProfilePhoto,_that.loginUserReaction,_that.isNewlyAdded,_that.isSubmitting);case _:
   return null;
 
 }
@@ -882,7 +890,7 @@ return $default(_that.guid,_that.replyComment,_that.replyCommentPhoto,_that.repl
 @JsonSerializable()
 
 class _NestedReplyItem implements NestedReplyItem {
-  const _NestedReplyItem({required this.guid, this.replyComment, this.replyCommentPhoto, this.replyCommentVideo, this.replyCreatedOn, required this.name, required this.personGuid, this.reactionCount = 0, this.photo, this.pageName, this.pageGuid, this.pageProfilePhoto, this.loginUserReaction});
+  const _NestedReplyItem({required this.guid, this.replyComment, this.replyCommentPhoto, this.replyCommentVideo, this.replyCreatedOn, required this.name, required this.personGuid, this.reactionCount = 0, this.photo, this.pageName, this.pageGuid, this.pageProfilePhoto, this.loginUserReaction, this.isNewlyAdded = false, this.isSubmitting = false});
   factory _NestedReplyItem.fromJson(Map<String, dynamic> json) => _$NestedReplyItemFromJson(json);
 
 @override final  String guid;
@@ -898,6 +906,8 @@ class _NestedReplyItem implements NestedReplyItem {
 @override final  String? pageGuid;
 @override final  String? pageProfilePhoto;
 @override final  String? loginUserReaction;
+@override@JsonKey() final  bool isNewlyAdded;
+@override@JsonKey() final  bool isSubmitting;
 
 /// Create a copy of NestedReplyItem
 /// with the given fields replaced by the non-null parameter values.
@@ -912,16 +922,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NestedReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NestedReplyItem&&(identical(other.guid, guid) || other.guid == guid)&&(identical(other.replyComment, replyComment) || other.replyComment == replyComment)&&(identical(other.replyCommentPhoto, replyCommentPhoto) || other.replyCommentPhoto == replyCommentPhoto)&&(identical(other.replyCommentVideo, replyCommentVideo) || other.replyCommentVideo == replyCommentVideo)&&(identical(other.replyCreatedOn, replyCreatedOn) || other.replyCreatedOn == replyCreatedOn)&&(identical(other.name, name) || other.name == name)&&(identical(other.personGuid, personGuid) || other.personGuid == personGuid)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.photo, photo) || other.photo == photo)&&(identical(other.pageName, pageName) || other.pageName == pageName)&&(identical(other.pageGuid, pageGuid) || other.pageGuid == pageGuid)&&(identical(other.pageProfilePhoto, pageProfilePhoto) || other.pageProfilePhoto == pageProfilePhoto)&&(identical(other.loginUserReaction, loginUserReaction) || other.loginUserReaction == loginUserReaction)&&(identical(other.isNewlyAdded, isNewlyAdded) || other.isNewlyAdded == isNewlyAdded)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,guid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction);
+int get hashCode => Object.hash(runtimeType,guid,replyComment,replyCommentPhoto,replyCommentVideo,replyCreatedOn,name,personGuid,reactionCount,photo,pageName,pageGuid,pageProfilePhoto,loginUserReaction,isNewlyAdded,isSubmitting);
 
 @override
 String toString() {
-  return 'NestedReplyItem(guid: $guid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction)';
+  return 'NestedReplyItem(guid: $guid, replyComment: $replyComment, replyCommentPhoto: $replyCommentPhoto, replyCommentVideo: $replyCommentVideo, replyCreatedOn: $replyCreatedOn, name: $name, personGuid: $personGuid, reactionCount: $reactionCount, photo: $photo, pageName: $pageName, pageGuid: $pageGuid, pageProfilePhoto: $pageProfilePhoto, loginUserReaction: $loginUserReaction, isNewlyAdded: $isNewlyAdded, isSubmitting: $isSubmitting)';
 }
 
 
@@ -932,7 +942,7 @@ abstract mixin class _$NestedReplyItemCopyWith<$Res> implements $NestedReplyItem
   factory _$NestedReplyItemCopyWith(_NestedReplyItem value, $Res Function(_NestedReplyItem) _then) = __$NestedReplyItemCopyWithImpl;
 @override @useResult
 $Res call({
- String guid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction
+ String guid, String? replyComment, String? replyCommentPhoto, String? replyCommentVideo, String? replyCreatedOn, String name, String personGuid, int reactionCount, String? photo, String? pageName, String? pageGuid, String? pageProfilePhoto, String? loginUserReaction, bool isNewlyAdded, bool isSubmitting
 });
 
 
@@ -949,7 +959,7 @@ class __$NestedReplyItemCopyWithImpl<$Res>
 
 /// Create a copy of NestedReplyItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? guid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? guid = null,Object? replyComment = freezed,Object? replyCommentPhoto = freezed,Object? replyCommentVideo = freezed,Object? replyCreatedOn = freezed,Object? name = null,Object? personGuid = null,Object? reactionCount = null,Object? photo = freezed,Object? pageName = freezed,Object? pageGuid = freezed,Object? pageProfilePhoto = freezed,Object? loginUserReaction = freezed,Object? isNewlyAdded = null,Object? isSubmitting = null,}) {
   return _then(_NestedReplyItem(
 guid: null == guid ? _self.guid : guid // ignore: cast_nullable_to_non_nullable
 as String,replyComment: freezed == replyComment ? _self.replyComment : replyComment // ignore: cast_nullable_to_non_nullable
@@ -964,7 +974,9 @@ as String?,pageName: freezed == pageName ? _self.pageName : pageName // ignore: 
 as String?,pageGuid: freezed == pageGuid ? _self.pageGuid : pageGuid // ignore: cast_nullable_to_non_nullable
 as String?,pageProfilePhoto: freezed == pageProfilePhoto ? _self.pageProfilePhoto : pageProfilePhoto // ignore: cast_nullable_to_non_nullable
 as String?,loginUserReaction: freezed == loginUserReaction ? _self.loginUserReaction : loginUserReaction // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isNewlyAdded: null == isNewlyAdded ? _self.isNewlyAdded : isNewlyAdded // ignore: cast_nullable_to_non_nullable
+as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

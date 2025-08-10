@@ -10,6 +10,8 @@ class CommentItemWidget extends ConsumerWidget {
   final Function(String commentId, ReactionType reaction) onReact;
   final Function(String commentId) onToggleExpansion;
   final Function(String commentId) onLoadMoreReplies;
+  final Map<String, GlobalKey> replyKeys;
+  final Map<String, GlobalKey> nestedReplyKeys;
 
   const CommentItemWidget({
     super.key,
@@ -18,6 +20,8 @@ class CommentItemWidget extends ConsumerWidget {
     required this.onReact,
     required this.onToggleExpansion,
     required this.onLoadMoreReplies,
+    required this.replyKeys,
+    required this.nestedReplyKeys,
   });
 
   @override
@@ -25,6 +29,29 @@ class CommentItemWidget extends ConsumerWidget {
     final commentState = ref.watch(commentProvider);
     final isTargetComment = commentState.replyingTo == comment.guid && 
                            commentState.replyType == CommentType.root;
+    final isNewlyAdded = comment.isNewlyAdded;
+    
+    // Determine decoration based on state
+    BoxDecoration? decoration;
+    EdgeInsets? padding;
+    
+    if (isNewlyAdded) {
+      // Newly added comment - highlight with green
+      decoration = BoxDecoration(
+        color: Colors.green.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.green.shade200),
+      );
+      padding = const EdgeInsets.all(12);
+    } else if (isTargetComment) {
+      // Target comment for reply - highlight with blue
+      decoration = BoxDecoration(
+        color: Colors.blue.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.blue.shade200),
+      );
+      padding = const EdgeInsets.all(12);
+    }
     
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -33,12 +60,8 @@ class CommentItemWidget extends ConsumerWidget {
         children: [
           // Main Comment with highlighting
           Container(
-            decoration: isTargetComment ? BoxDecoration(
-              color: Colors.blue.shade50,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.blue.shade200),
-            ) : null,
-            padding: isTargetComment ? const EdgeInsets.all(12) : null,
+            decoration: decoration,
+            padding: padding,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -199,9 +222,10 @@ class CommentItemWidget extends ConsumerWidget {
                 // Show first reply always, others only when expanded
                 if (index == 0 || comment.isExpanded) {
                   return ReplyItemWidget(
-                    key: ValueKey(reply.guid), // Important for performance
+                    key: replyKeys[reply.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
                     reply: reply,
                     commentId: comment.guid,
+                    nestedReplyKeys: nestedReplyKeys,
                     onReply: (replyId, userName) {
                       ref
                           .read(commentProvider.notifier)

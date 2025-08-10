@@ -259,7 +259,7 @@ class CommentNotifier extends StateNotifier<CommentState> {
     }
   }
 
-  Future<void> addComment(String postId, String commentText) async {
+  Future<String?> addComment(String postId, String commentText) async {
     try {
       // Create a temporary comment with "Commenting" state
       final tempComment = CommentItem(
@@ -272,30 +272,45 @@ class CommentNotifier extends StateNotifier<CommentState> {
         isSubmitting: true,
       );
       
-      // Add temporary comment to the top
+      // Add temporary comment to the top (newest first)
       state = state.copyWith(comments: [tempComment, ...state.comments]);
       
       // Simulate delay and get real comment
       await Future.delayed(const Duration(seconds: 2));
       final newComment = await _commentService.addComment(postId, commentText);
       
-      // Replace temporary comment with real one
+      // Replace temporary comment with real one, marked as newly added
+      final finalComment = newComment.copyWith(isNewlyAdded: true);
       final updatedComments = state.comments.map((comment) {
         if (comment.guid == tempComment.guid) {
-          return newComment;
+          return finalComment;
         }
         return comment;
       }).toList();
       
       state = state.copyWith(comments: updatedComments);
+      
+      // Remove highlighting after 5 seconds
+      Future.delayed(const Duration(seconds: 5), () {
+        final finalUpdatedComments = state.comments.map((comment) {
+          if (comment.guid == finalComment.guid) {
+            return comment.copyWith(isNewlyAdded: false);
+          }
+          return comment;
+        }).toList();
+        state = state.copyWith(comments: finalUpdatedComments);
+      });
+      
+      return finalComment.guid;
     } catch (e) {
       // Remove temporary comment on error
       final updatedComments = state.comments.where((comment) => !comment.isSubmitting).toList();
       state = state.copyWith(comments: updatedComments, error: e.toString());
+      return null;
     }
   }
 
-  Future<void> addReply(String commentId, String replyText) async {
+  Future<String?> addReply(String commentId, String replyText) async {
     try {
       // Create a temporary reply with "Commenting" state
       final tempReply = ReplyItem(
@@ -309,11 +324,11 @@ class CommentNotifier extends StateNotifier<CommentState> {
         isSubmitting: true,
       );
 
-      // Add temporary reply to the comment
+      // Add temporary reply to the comment (newest last for replies)
       final updatedComments = state.comments.map((comment) {
         if (comment.guid == commentId) {
           return comment.copyWith(
-            replies: [tempReply, ...comment.replies],
+            replies: [...comment.replies, tempReply], // Add to end (newest bottom)
             replyCount: comment.replyCount + 1,
           );
         }
@@ -326,12 +341,13 @@ class CommentNotifier extends StateNotifier<CommentState> {
       await Future.delayed(const Duration(seconds: 2));
       final newReply = await _commentService.addReply(commentId, replyText);
 
-      // Replace temporary reply with real one
+      // Replace temporary reply with real one, marked as newly added
+      final finalReply = newReply.copyWith(isNewlyAdded: true);
       final finalUpdatedComments = state.comments.map((comment) {
         if (comment.guid == commentId) {
           final updatedReplies = comment.replies.map((reply) {
             if (reply.guid == tempReply.guid) {
-              return newReply;
+              return finalReply;
             }
             return reply;
           }).toList();
@@ -346,6 +362,25 @@ class CommentNotifier extends StateNotifier<CommentState> {
         replyingToName: null,
         replyType: null,
       );
+      
+      // Remove highlighting after 5 seconds
+      Future.delayed(const Duration(seconds: 5), () {
+        final finalFinalUpdatedComments = state.comments.map((comment) {
+          if (comment.guid == commentId) {
+            final updatedReplies = comment.replies.map((reply) {
+              if (reply.guid == finalReply.guid) {
+                return reply.copyWith(isNewlyAdded: false);
+              }
+              return reply;
+            }).toList();
+            return comment.copyWith(replies: updatedReplies);
+          }
+          return comment;
+        }).toList();
+        state = state.copyWith(comments: finalFinalUpdatedComments);
+      });
+      
+      return finalReply.guid;
     } catch (e) {
       // Remove temporary reply on error
       final updatedComments = state.comments.map((comment) {
@@ -356,38 +391,106 @@ class CommentNotifier extends StateNotifier<CommentState> {
         return comment;
       }).toList();
       state = state.copyWith(comments: updatedComments, error: e.toString());
+      return null;
     }
   }
 
-  Future<void> addNestedReply(String replyId, String nestedReplyText) async {
+  Future<String?> addNestedReply(String replyId, String nestedReplyText) async {
     try {
-      final newNestedReply = await _commentService.addNestedReply(
-        replyId,
-        nestedReplyText,
+      // Create a temporary nested reply with "Commenting" state
+      final tempNestedReply = NestedReplyItem(
+        guid: 'temp_nested_${DateTime.now().millisecondsSinceEpoch}',
+        replyComment: nestedReplyText,
+        name: 'Current User',
+        personGuid: 'current_user',
+        photo: 'https://i.pravatar.cc/150?img=10',
+        replyCreatedOn: 'Commenting',
+        isSubmitting: true,
       );
 
+      // Add temporary nested reply to the reply (newest last for nested replies)
       final updatedComments = state.comments.map((comment) {
         final updatedReplies = comment.replies.map((reply) {
           if (reply.guid == replyId) {
             return reply.copyWith(
-              nestedReplies: [newNestedReply, ...reply.nestedReplies],
+              nestedReplies: [...reply.nestedReplies, tempNestedReply], // Add to end (newest bottom)
               replyCount: reply.replyCount + 1,
             );
           }
           return reply;
         }).toList();
+        return comment.copyWith(replies: updatedReplies);
+      }).toList();
 
+      state = state.copyWith(comments: updatedComments);
+
+      // Simulate delay and get real nested reply
+      await Future.delayed(const Duration(seconds: 2));
+      final newNestedReply = await _commentService.addNestedReply(
+        replyId,
+        nestedReplyText,
+      );
+
+      // Replace temporary nested reply with real one, marked as newly added
+      final finalNestedReply = newNestedReply.copyWith(isNewlyAdded: true);
+      final finalUpdatedComments = state.comments.map((comment) {
+        final updatedReplies = comment.replies.map((reply) {
+          if (reply.guid == replyId) {
+            final updatedNestedReplies = reply.nestedReplies.map((nestedReply) {
+              if (nestedReply.guid == tempNestedReply.guid) {
+                return finalNestedReply;
+              }
+              return nestedReply;
+            }).toList();
+            return reply.copyWith(nestedReplies: updatedNestedReplies);
+          }
+          return reply;
+        }).toList();
         return comment.copyWith(replies: updatedReplies);
       }).toList();
 
       state = state.copyWith(
-        comments: updatedComments,
+        comments: finalUpdatedComments,
         replyingTo: null,
         replyingToName: null,
         replyType: null,
       );
+      
+      // Remove highlighting after 5 seconds
+      Future.delayed(const Duration(seconds: 5), () {
+        final finalFinalUpdatedComments = state.comments.map((comment) {
+          final updatedReplies = comment.replies.map((reply) {
+            if (reply.guid == replyId) {
+              final updatedNestedReplies = reply.nestedReplies.map((nestedReply) {
+                if (nestedReply.guid == finalNestedReply.guid) {
+                  return nestedReply.copyWith(isNewlyAdded: false);
+                }
+                return nestedReply;
+              }).toList();
+              return reply.copyWith(nestedReplies: updatedNestedReplies);
+            }
+            return reply;
+          }).toList();
+          return comment.copyWith(replies: updatedReplies);
+        }).toList();
+        state = state.copyWith(comments: finalFinalUpdatedComments);
+      });
+      
+      return finalNestedReply.guid;
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      // Remove temporary nested reply on error
+      final updatedComments = state.comments.map((comment) {
+        final updatedReplies = comment.replies.map((reply) {
+          if (reply.guid == replyId) {
+            final updatedNestedReplies = reply.nestedReplies.where((nestedReply) => !nestedReply.isSubmitting).toList();
+            return reply.copyWith(nestedReplies: updatedNestedReplies);
+          }
+          return reply;
+        }).toList();
+        return comment.copyWith(replies: updatedReplies);
+      }).toList();
+      state = state.copyWith(comments: updatedComments, error: e.toString());
+      return null;
     }
   }
 

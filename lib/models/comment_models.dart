@@ -28,6 +28,7 @@ abstract class CommentItem with _$CommentItem {
     @Default(false) bool hasMoreReplies,
     String? lastReplyCursor,
     @Default(false) bool isSubmitting,
+    @Default(false) bool isNewlyAdded,
   }) = _CommentItem;
 
   factory CommentItem.fromJson(Map<String, dynamic> json) =>
@@ -58,6 +59,7 @@ abstract class ReplyItem with _$ReplyItem {
     @Default(false) bool hasMoreNestedReplies,
     String? lastNestedReplyCursor,
     @Default(false) bool isSubmitting,
+    @Default(false) bool isNewlyAdded,
   }) = _ReplyItem;
 
   factory ReplyItem.fromJson(Map<String, dynamic> json) =>
@@ -80,6 +82,8 @@ abstract class NestedReplyItem with _$NestedReplyItem {
     String? pageGuid,
     String? pageProfilePhoto,
     String? loginUserReaction,
+    @Default(false) bool isNewlyAdded,
+    @Default(false) bool isSubmitting,
   }) = _NestedReplyItem;
 
   factory NestedReplyItem.fromJson(Map<String, dynamic> json) =>

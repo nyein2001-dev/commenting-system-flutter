@@ -16,6 +16,16 @@ class CommentsScreen extends ConsumerStatefulWidget {
 
 class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   final ScrollController _scrollController = ScrollController();
+  
+  // GlobalKeys for auto-scrolling to specific comments/replies/nested replies
+  final Map<String, GlobalKey> _commentKeys = {};
+  final Map<String, GlobalKey> _replyKeys = {};
+  final Map<String, GlobalKey> _nestedReplyKeys = {};
+  
+  // Track last added content for auto-scrolling
+  String? _lastAddedCommentId;
+  String? _lastAddedReplyId;
+  String? _lastAddedNestedReplyId;
 
   @override
   void initState() {
@@ -46,6 +56,56 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
     if (commentState.isLoadingMore || !commentState.hasMoreComments) return;
     
     await ref.read(commentProvider.notifier).loadMoreComments(widget.postId);
+  }
+  
+  // Auto-scroll to newly added content
+  void _scrollToNewContent() {
+    if (_lastAddedCommentId != null) {
+      _scrollToComment(_lastAddedCommentId!);
+      _lastAddedCommentId = null;
+    } else if (_lastAddedReplyId != null) {
+      _scrollToReply(_lastAddedReplyId!);
+      _lastAddedReplyId = null;
+    } else if (_lastAddedNestedReplyId != null) {
+      _scrollToNestedReply(_lastAddedNestedReplyId!);
+      _lastAddedNestedReplyId = null;
+    }
+  }
+  
+  // Scroll to specific comment
+  void _scrollToComment(String commentId) {
+    final key = _commentKeys[commentId];
+    if (key != null && key.currentContext != null) {
+      Scrollable.ensureVisible(
+        key.currentContext!,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+  
+  // Scroll to specific reply
+  void _scrollToReply(String replyId) {
+    final key = _replyKeys[replyId];
+    if (key != null && key.currentContext != null) {
+      Scrollable.ensureVisible(
+        key.currentContext!,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+  
+  // Scroll to specific nested reply
+  void _scrollToNestedReply(String nestedReplyId) {
+    final key = _nestedReplyKeys[nestedReplyId];
+    if (key != null && key.currentContext != null) {
+      Scrollable.ensureVisible(
+        key.currentContext!,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -95,8 +155,10 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                                 (context, index) {
                                   final comment = commentState.comments[index];
                                   return CommentItemWidget(
-                                    key: ValueKey(comment.guid), // Important for performance
+                                    key: _commentKeys[comment.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
                                     comment: comment,
+                                    replyKeys: _replyKeys,
+                                    nestedReplyKeys: _nestedReplyKeys,
                                     onReply: (commentId, userName) {
                                       ref
                                           .read(commentProvider.notifier)
@@ -168,16 +230,26 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
             onClearReply: () {
               ref.read(commentProvider.notifier).clearReplyTarget();
             },
-            onSubmit: (text) {
+            onSubmit: (text) async {
               final notifier = ref.read(commentProvider.notifier);
 
               if (commentState.replyingTo != null) {
                 switch (commentState.replyType) {
                   case CommentType.root:
-                    notifier.addReply(commentState.replyingTo!, text);
+                    final replyId = await notifier.addReply(commentState.replyingTo!, text);
+                    if (replyId != null) {
+                      _lastAddedReplyId = replyId;
+                      // Trigger auto-scroll after a short delay to ensure UI is updated
+                      Future.delayed(const Duration(milliseconds: 100), _scrollToNewContent);
+                    }
                     break;
                   case CommentType.reply:
-                    notifier.addNestedReply(commentState.replyingTo!, text);
+                    final nestedReplyId = await notifier.addNestedReply(commentState.replyingTo!, text);
+                    if (nestedReplyId != null) {
+                      _lastAddedNestedReplyId = nestedReplyId;
+                      // Trigger auto-scroll after a short delay to ensure UI is updated
+                      Future.delayed(const Duration(milliseconds: 100), _scrollToNewContent);
+                    }
                     break;
                   case CommentType.nested:
                     // Handle nested reply to nested reply if needed
@@ -186,7 +258,16 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                     break;
                 }
               } else {
-                notifier.addComment(widget.postId, text);
+                final commentId = await notifier.addComment(widget.postId, text);
+                if (commentId != null) {
+                  _lastAddedCommentId = commentId;
+                  // For comments, scroll to top immediately
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                }
               }
             },
           ),

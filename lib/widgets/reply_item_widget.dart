@@ -11,6 +11,7 @@ class ReplyItemWidget extends ConsumerWidget {
   final Function(String replyId, ReactionType reaction) onReact;
   final Function(String replyId) onToggleExpansion;
   final Function(String replyId) onLoadMoreNestedReplies;
+  final Map<String, GlobalKey> nestedReplyKeys;
 
   const ReplyItemWidget({
     super.key,
@@ -20,6 +21,7 @@ class ReplyItemWidget extends ConsumerWidget {
     required this.onReact,
     required this.onToggleExpansion,
     required this.onLoadMoreNestedReplies,
+    required this.nestedReplyKeys,
   });
 
   @override
@@ -27,6 +29,29 @@ class ReplyItemWidget extends ConsumerWidget {
     final commentState = ref.watch(commentProvider);
     final isTargetReply = commentState.replyingTo == reply.guid && 
                          commentState.replyType == CommentType.reply;
+    final isNewlyAdded = reply.isNewlyAdded;
+    
+    // Determine decoration based on state
+    BoxDecoration? decoration;
+    EdgeInsets? padding;
+    
+    if (isNewlyAdded) {
+      // Newly added reply - highlight with orange
+      decoration = BoxDecoration(
+        color: Colors.orange.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.orange.shade200),
+      );
+      padding = const EdgeInsets.all(8);
+    } else if (isTargetReply) {
+      // Target reply for nested reply - highlight with green
+      decoration = BoxDecoration(
+        color: Colors.green.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.green.shade200),
+      );
+      padding = const EdgeInsets.all(8);
+    }
     
     return Container(
       margin: const EdgeInsets.only(left: 52, bottom: 12),
@@ -35,12 +60,8 @@ class ReplyItemWidget extends ConsumerWidget {
         children: [
           // Main Reply with highlighting
           Container(
-            decoration: isTargetReply ? BoxDecoration(
-              color: Colors.green.shade50,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.green.shade200),
-            ) : null,
-            padding: isTargetReply ? const EdgeInsets.all(8) : null,
+            decoration: decoration,
+            padding: padding,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -193,7 +214,7 @@ class ReplyItemWidget extends ConsumerWidget {
                 // Show first nested reply always, others only when expanded
                 if (index == 0 || reply.isExpanded) {
                   return NestedReplyItemWidget(
-                    key: ValueKey(nestedReply.guid), // Important for performance
+                    key: nestedReplyKeys[nestedReply.guid] = GlobalKey(), // Use GlobalKey for auto-scrolling
                     nestedReply: nestedReply,
                     onReact: (nestedReplyId, reaction) {
                       // Handle nested reply reaction
